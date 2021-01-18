@@ -75,7 +75,7 @@ export default function EarningFieldDetails ({name, userFields, history}) {
   useEffect(() => {
     if (name) {
       if (displayHistInv) {
-        setInvValue({title: 'Average historic', value: '$' + Number(currentField.earningROI.histInvestmentValue.toFixed()).toLocaleString()})
+        setInvValue({title: 'Cumulative', value: '$' + Number(currentField.earningROI.histInvestmentValue.toFixed()).toLocaleString()})
       } else {
         setInvValue({title: 'Current', value: '$' + Number(currentField.investmentValue.toFixed()).toLocaleString()})
       }
