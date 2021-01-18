@@ -1,0 +1,16 @@
+const path = require('path');
+const express = require('express');
+const app = express();
+
+require('dotenv').config()
+const port = process.env.PORT || 3021;
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+app.listen(port, () => {
+  console.log(`SimpleFi client server listening on port ${port} 🎉`)
+})

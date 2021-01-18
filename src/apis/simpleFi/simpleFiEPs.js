@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3020';
+const baseUrl = 'https://simplefi-server.herokuapp.com';
 const fieldEP = '/fields';
 const tokensEP = '/tokens';
 const fieldTokensEP = '/userfieldtokens';

@@ -5,7 +5,7 @@
 }
 
 body {
-  all: unset;
+  margin: unset;
   background-color: var(--lilac);
   font-family: -apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
   position: relative;
