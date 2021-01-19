@@ -1,3 +1,4 @@
+import sslRedirect from 'heroku-ssl-redirect';
 const path = require('path');
 const express = require('express');
 const sslRedirect = require('heroku-ssl-redirect').default
