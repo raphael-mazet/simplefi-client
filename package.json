@@ -12,7 +12,6 @@
     "ethers": "^5.0.12",
     "express": "^4.17.1",
     "graphql": "^15.4.0",
-    "heroku-ssl-redirect": "^0.1.1",
     "react": "^16.13.1",
     "react-blockies": "^1.4.1",
     "react-dom": "^16.13.1",
