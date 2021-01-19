@@ -1,12 +1,24 @@
 const path = require('path');
 const express = require('express');
-const sslRedirect = require('heroku-ssl-redirect').default
+// const sslRedirect = require('heroku-ssl-redirect').default
 const app = express();
 
 require('dotenv').config()
 const port = process.env.PORT || 3021;
 
-app.use(sslRedirect());
+app.use((req, res, next) => {
+  let sslUrl;
+
+  if (process.env.NODE_ENV === 'production' &&
+    req.headers['x-forwarded-proto'] !== 'https') {
+
+    sslUrl = ['https://', req.hostname, req.url].join('');
+    return res.redirect(301, sslUrl);
+  }
+
+  return next();
+});
+
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/*', (req, res) => {
@@ -16,3 +28,4 @@ app.get('/*', (req, res) => {
 app.listen(port, () => {
   console.log(`SimpleFi client server listening on port ${port} 🎉`)
 })
+
