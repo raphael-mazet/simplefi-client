@@ -39,7 +39,7 @@ function App() {
 
   //Get tracked tokens and fields from SimpleFi db and attach contracts
   useEffect(() => {
-    if (window.ethereum) { 
+    if (window.ethereum && window.ethereum.isMetaMask) { 
       window.ethereum.autoRefreshOnNetworkChange = false;
       window.ethereum.on('accountsChanged', function (accounts) {
         if(splash) history.push('/dashboard');
