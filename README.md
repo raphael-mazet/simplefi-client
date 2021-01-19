@@ -1,18 +1,8 @@
 # SimpleFi
-<p align="center">
-  <br/>
-  <img src="./images/logo/simplefi-logo-transp.png" width=250/>
-</p>
-<br/>
+
 SimpleFi makes it easy to manage your decentralised finance investment portfolio.
 
-
-## Screenshots
-
-<p align="center">
-  <img src="./images/screenshots/simplefi-splash.png" width=400/>
-  <img src="./images/screenshots/simplefi-dash.png" width=400/>
-</p>
+In production at [SimpleFi.finance](https://simplefi.finance)
 
 
 ## Getting started
@@ -24,10 +14,12 @@ git https://github.com/raphael-mazet/simplefi-client.git
 ```
 
 2. start the simplefi server
+
 Refer to the [SimpleFi server](https://github.com/raphael-mazet/simplefi-client.git) documentation.
 
 
 3. start the app in development
+
 ```
 npm install
 npm start
@@ -39,7 +31,7 @@ Note that this app has been optimised for deployment with Heroku. Procfile.js wi
 npm run build
 node server.js
 ```
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
 You can learn more in the documentation for [Create React App](https://facebook.github.io/create-react-app/docs/getting-started) and [React](https://facebook.github.io/create-react-app/docs).
 
 
