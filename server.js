@@ -8,6 +8,7 @@ const port = process.env.PORT || 3021;
 app.use((req, res, next) => {
   let sslUrl;
 
+  //By default, Heroku sets NODE_ENV to production
   if (process.env.NODE_ENV === 'production' &&
     req.headers['x-forwarded-proto'] !== 'https') {
 

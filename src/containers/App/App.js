@@ -47,7 +47,7 @@ function App() {
         setUserAccount(accounts);
       });
     } else {
-      alert('Please install Metamask to use SimpleFi (https://metamask.io/)');
+      alert('Please install MetaMask to use SimpleFi (https://metamask.io/)');
     }
 
     const getTokens = apis.getTokens();
