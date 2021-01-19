@@ -15,7 +15,7 @@ git https://github.com/raphael-mazet/simplefi-client.git
 
 2. start the simplefi server
 
-Refer to the [SimpleFi server](https://github.com/raphael-mazet/simplefi-client.git) documentation.
+Refer to the [SimpleFi server](https://github.com/raphael-mazet/simplefi-server.git) documentation.
 
 
 3. start the app in development
