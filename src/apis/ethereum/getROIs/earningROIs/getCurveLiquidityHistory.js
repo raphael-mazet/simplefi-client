@@ -25,7 +25,12 @@ async function getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs
 
     for (let seed of field.seedTokens) {
       const histSeedValue = await getHistoricalPrice (seed.priceApi, geckoDateformat);
-      const decimaledReserve = historicalStat.balances[seed.seedIndex]/Number(`1e${seed.tokenContract.decimals}`);
+      // Manage edge case where the seed token is Eth, and therefore has no tokenContract
+      let seedDecimal = 18;
+      if (seed.tokenContract) {
+        seedDecimal = Number(`1e${seed.tokenContract.decimals}`);
+      }
+      const decimaledReserve = historicalStat.balances[seed.seedIndex]/seedDecimal;
       fieldHistReserveValue += histSeedValue * decimaledReserve;
     }
     //TODO: check impact of split admin fees and use of virtual price

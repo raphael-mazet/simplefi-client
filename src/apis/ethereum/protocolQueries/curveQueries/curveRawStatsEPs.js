@@ -5,7 +5,8 @@ export default {
   indivPoolEPs: {
       'Curve: sUSD v2 pool': 'susd',
       'Curve: sBTC pool': 'rens',
-      'Curve: hBTC pool': 'hbtc'
+      'Curve: hBTC pool': 'hbtc',
+      'Curve: stEth pool': 'steth'
     },
   indivPoolConcat: '-1440m.json'
 }
