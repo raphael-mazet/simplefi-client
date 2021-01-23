@@ -26,7 +26,7 @@ async function getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs
     for (let seed of field.seedTokens) {
       const histSeedValue = await getHistoricalPrice (seed.priceApi, geckoDateformat);
 
-      // Manage edge case where the seed token is Eth, and therefore has no tokenContract
+      // Manage edge case where the seed token is Eth, and therefore has no tokenContract to pull decimals from
       let seedDecimalDivisor = 1e18;
       if (seed.tokenContract) {
         seedDecimalDivisor = Number(`1e${seed.tokenContract.decimals}`);

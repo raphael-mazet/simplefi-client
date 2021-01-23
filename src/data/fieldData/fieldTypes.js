@@ -24,6 +24,10 @@ const fieldInterfaceTypes = {
       name: "Curve: sBTC reward gauge",
       ciId: "e7415498-1411-4b6b-bf69-aa9d61ea2e15"
     },
+    {
+      name: "Curve: stEth reward gauge",
+      ciId: "7e3cdf65-e20d-458b-a7c6-7776d960df48"
+    }
   ],
   uniswap: [
     {

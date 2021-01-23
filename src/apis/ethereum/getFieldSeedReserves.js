@@ -28,7 +28,8 @@ async function getFieldSeedReserves (field, token, tokenContract, cache) {
 
   let fieldReserve;
   
-  //FIXME: seems all Curve swap addresses can use the CurveSwap function
+  //FIXME: seems all Curve swap/pool addresses can use the CurveSwap function
+  //FIXME: seems all Curve farming/gauges can use curveSNX function
   switch (addressType) {
 
     case "curveSwap":
