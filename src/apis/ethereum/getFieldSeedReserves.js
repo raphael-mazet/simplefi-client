@@ -2,8 +2,8 @@ import { ethers } from 'ethers';
 import provider from './ethProvider';
 import helpers from '../../helpers'
 
-//CHECK: add cache here instead of parent function?
-//FIXME: edge case - this function does not always work well when the token is Eth
+//CHECK: add cache here instead of in parent function?
+//FIXME: edge case - this function may not always work well when the token is Eth
 async function getFieldSeedReserves (field, token, tokenContract, cache) {
 
   //Check in cache if reserves already fetched
