@@ -8,7 +8,7 @@ import helpers from '../../../../helpers';
  * @param {Object} receiptToken - fields receipt token, used to track user holding changes
  * @param {Array} userReceiptTokenTxs - all transactions involving user's receipt token
  * @param {String} userAccount - user's Ethereum account
- * @param {Array} whitelist - array of staking addresses, to avoid staking/unstaking receipt tokens being couinted as a realised profit/loss or new investment
+ * @param {Array} whitelist - array of staking addresses, to avoid staking/unstaking receipt tokens being counted as a realised profit/loss or new investment
  */
 async function getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs, userAccount, whitelist) {
   const timeFormatter = new Intl.DateTimeFormat('en-GB');
@@ -25,7 +25,13 @@ async function getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs
 
     for (let seed of field.seedTokens) {
       const histSeedValue = await getHistoricalPrice (seed.priceApi, geckoDateformat);
-      const decimaledReserve = historicalStat.balances[seed.seedIndex]/Number(`1e${seed.tokenContract.decimals}`);
+
+      // Manage edge case where the seed token is Eth, and therefore has no tokenContract to pull decimals from
+      let seedDecimalDivisor = 1e18;
+      if (seed.tokenContract) {
+        seedDecimalDivisor = Number(`1e${seed.tokenContract.decimals}`);
+      }
+      const decimaledReserve = historicalStat.balances[seed.seedIndex]/seedDecimalDivisor;
       fieldHistReserveValue += histSeedValue * decimaledReserve;
     }
     //TODO: check impact of split admin fees and use of virtual price

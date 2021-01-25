@@ -1,4 +1,5 @@
 //TODO: add documentation
+// NOTE: used by Rewinder's getFieldSeedReserves
 const fieldInterfaceTypes = {
   curveSwap: [
     {
@@ -8,6 +9,10 @@ const fieldInterfaceTypes = {
     {
       name: "curve swap 3 (sBTC)",
       ciId: "c95d2eeb-781a-4ce8-a4d1-35aeaec2953d"
+    },
+    {
+      name: "curve swap 2 (stEth)",
+      ciId: "93695fbe-8328-4ae4-b86f-5a6e93424e02"
     }
   ],
   curveSNX: [
@@ -19,6 +24,10 @@ const fieldInterfaceTypes = {
       name: "Curve: sBTC reward gauge",
       ciId: "e7415498-1411-4b6b-bf69-aa9d61ea2e15"
     },
+    {
+      name: "Curve: stEth reward gauge",
+      ciId: "7e3cdf65-e20d-458b-a7c6-7776d960df48"
+    }
   ],
   uniswap: [
     {

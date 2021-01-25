@@ -3,6 +3,7 @@ import provider from './ethProvider';
 import helpers from '../../helpers'
 
 //CHECK: add cache here instead of parent function?
+//FIXME: edge case - this function does not always work well when the token is Eth
 async function getFieldSeedReserves (field, token, tokenContract, cache) {
 
   //Check in cache if reserves already fetched
@@ -16,15 +17,24 @@ async function getFieldSeedReserves (field, token, tokenContract, cache) {
 
   const reserveAddress = helpers.findFieldAddressType(field, 'underlying');
   const { addressType, address, abi } = reserveAddress;
-  const { decimals } = token.contractInterface;
+  // @dev: the default 18 is to deal with the edge case where the target token is Eth and therefore has no contractInterface
+  let decimals;
+  if (token.contractInterface) {
+    decimals = token.contractInterface.decimals;
+  } else {
+    decimals = 18;
+  }
   const tokenIndex = token.seedIndex;
 
   let fieldReserve;
-
+  
+  //FIXME: seems all Curve swap/pool addresses can use the CurveSwap function
+  //FIXME: seems all Curve farming/gauges can use curveSNX function
   switch (addressType) {
 
     case "curveSwap":
-
+      
+      //TODO: explain why this check is needed
       if (!field.fieldContracts.underlyingContract) {
         field.fieldContracts.underlyingContract = new ethers.Contract(address, abi, provider);
       }
@@ -49,9 +59,9 @@ async function getFieldSeedReserves (field, token, tokenContract, cache) {
       fieldReserve = Number(ethers.utils.formatUnits(_fieldReserves[tokenIndex], decimals));
       break;
 
-    default: 
-    fieldReserve = await tokenContract.contract.balanceOf(address);
-    fieldReserve = Number(ethers.utils.formatUnits(fieldReserve, decimals));
+    default:
+      fieldReserve = await tokenContract.contract.balanceOf(address);
+      fieldReserve = Number(ethers.utils.formatUnits(fieldReserve, decimals));
   }
   
   if (findFieldinCache) {

@@ -7,6 +7,7 @@ import {
   calcEarningROI,
   calcFarmingROI
 } from './ethROIHelpers';
+import findUnclaimedBalanceType from './findUnclaimedBalanceType';
 
 
 export {
@@ -16,5 +17,6 @@ export {
   sortFarmingTxs,
   createWhitelist,
   calcEarningROI,
-  calcFarmingROI
+  calcFarmingROI,
+  findUnclaimedBalanceType
 }

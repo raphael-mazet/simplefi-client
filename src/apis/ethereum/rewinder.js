@@ -8,14 +8,12 @@ import { getTotalFieldSupply, getFieldSeedReserves } from './';
  * @param {Array} trackedFields - all earning and farming fields tracked by SimpleFi
  */
 async function rewinder (userFields, trackedTokens, trackedFields) {
-
   const userTokenBalances = [];
   const userFeederFieldBalances = [];
   const totalFieldSupplyCache = []; // { fieldName, totalFieldSupply }
   const fieldSeedReserveCache = []; // { fieldName, seedReserves: [{tokenName, fieldReserve}] }
 
   for (const mainField of userFields) {
-    
     const { contract, decimals } = mainField.fieldContracts.balanceContract;
     /*
     @dev: total supply indicates either 1) how many receipt tokens have been minted by the field

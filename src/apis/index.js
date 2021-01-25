@@ -8,7 +8,7 @@ import {
 } from './simpleFi'
 import getTokenPrices from './coinGecko/getTokenPrices';
 import {
-  getUserBalance,
+  getOneAccountBalance,
   getAllUserBalances,
   getUnclaimedRewards,
   createBalanceContracts,
@@ -26,7 +26,7 @@ export default {
   getUserTransactions,
   getTokenPrices,
   createBalanceContracts,
-  getUserBalance,
+  getOneAccountBalance,
   getAllUserBalances,
   getUnclaimedRewards,
   rewinder,
