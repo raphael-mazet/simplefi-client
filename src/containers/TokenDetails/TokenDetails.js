@@ -5,7 +5,7 @@ import helpers from '../../helpers';
 
 export default function TokenDetails({name, userTokens, userTokenPrices, history}) {
 
-  const [currentToken] = useState(userTokens.find(field => field.name === name));
+  const [currentToken] = useState(userTokens.find(userToken=> userToken.name === name));
   const [totalBalance, setTotalBalance] = useState(0);
   const [totalValue, setTotalValue] = useState(0);
   
