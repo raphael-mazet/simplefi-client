@@ -57,7 +57,7 @@ async function getCurveHistReceiptPrices (field, receiptToken, userReceiptTokenT
       const decimaledReserve = historicalStat.balances[seed.seedIndex]/Number(`1e${seed.tokenContract.decimals}`);
       fieldHistReserveValue += histSeedValue * decimaledReserve;
     }
-       //TODO: check impact of split admin fees and use of virtual price
+    //TODO: check impact of split admin fees and use of virtual price
     const pricePerToken = fieldHistReserveValue / (historicalStat.supply / Number(`1e${receiptToken.tokenContract.decimals}`));
     return {tx, receiptToken, pricePerToken, txDate}
   })

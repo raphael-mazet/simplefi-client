@@ -26,7 +26,9 @@ async function getUserLiquidityHistory(trackedFields, field, receiptToken, userR
   switch (field.protocol.name) {
 
     case "Curve":
-      //@dev: this function contains a array.map of multiple calls to coinGecko, hence the use of a promise.all in main func
+      /* @dev: this function contains a array.map of multiple calls to coinGecko,
+               hence the use of a promise.all in the parent func (getROIs)
+      */
       liquidityHistory = await getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs, userAccount, whitelist)
       break;
       

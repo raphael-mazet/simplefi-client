@@ -1,5 +1,4 @@
-//TODO: add documentation
-// NOTE: used by Rewinder's getFieldSeedReserves
+// @dev: used by Rewinder's getFieldSeedReserves
 const fieldInterfaceTypes = {
   curveSwap: [
     {
