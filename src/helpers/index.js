@@ -12,6 +12,7 @@ import { extractSummaryFieldValues } from './myAssetsHelpers/fieldHelpers';
 import toggleDropdown from './myAssetsHelpers/dropdownHelper';
 import {
   findFieldAddressType,
+  findUnclaimedBalanceType,
   combineFieldSuppliesAndReserves,
   sortLiquidityTxs,
   sortFarmingTxs,
@@ -43,6 +44,7 @@ export default {
   extractSummaryFieldValues,
   toggleDropdown,
   findFieldAddressType,
+  findUnclaimedBalanceType,
   combineFieldSuppliesAndReserves,
   sortLiquidityTxs,
   sortFarmingTxs,
