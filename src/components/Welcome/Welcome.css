@@ -1,4 +1,5 @@
 @import '../../CSS/variables.css';
+@import '../../CSS/animations.css';
 
 .welcome {
   display: flex;
@@ -47,6 +48,7 @@
 }
 
 .splash-connect {
+  display: flex;
   margin-left: 120px;
 }
 
