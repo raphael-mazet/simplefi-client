@@ -5,7 +5,7 @@ import helpers from '../../helpers'
 //CHECK: add cache here instead of in parent function?
 //FIXME: edge case - this function may not always work well when the token is Eth
 async function getFieldSeedReserves (field, token, tokenContract, cache) {
-
+  
   //Check in cache if reserves already fetched
   const findFieldinCache = cache.filter(fieldWithReserves => fieldWithReserves.fieldName === field.name)[0];
   if (findFieldinCache) {
@@ -17,6 +17,7 @@ async function getFieldSeedReserves (field, token, tokenContract, cache) {
 
   const reserveAddress = helpers.findFieldAddressType(field, 'underlying');
   const { addressType, address, abi } = reserveAddress;
+
   // @dev: the default 18 is to deal with the edge case where the target token is Eth and therefore has no contractInterface
   let decimals;
   if (token.contractInterface) {
@@ -38,7 +39,6 @@ async function getFieldSeedReserves (field, token, tokenContract, cache) {
       if (!field.fieldContracts.underlyingContract) {
         field.fieldContracts.underlyingContract = new ethers.Contract(address, abi, provider);
       }
-
       fieldReserve = await field.fieldContracts.underlyingContract.balances(tokenIndex);
       fieldReserve = ethers.utils.formatUnits(fieldReserve, decimals)
       break;
