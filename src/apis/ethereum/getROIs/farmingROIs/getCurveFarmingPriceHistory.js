@@ -1,4 +1,4 @@
-import getHistoricalPrice from '../../../coinGecko/getHistoricalPrice';
+import { getHistoricalPrice } from '../../../coinGecko/getHistoricalPrice';
 import { getOneCurvePoolRawData } from '../../protocolQueries';
 
 /**

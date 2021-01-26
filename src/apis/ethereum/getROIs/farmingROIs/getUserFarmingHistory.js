@@ -1,6 +1,6 @@
 import { getOneCurveHistReceiptPrice } from './getCurveFarmingPriceHistory';
 import getOneUniswapHistReceiptPrice from './getUniswapFarmingPriceHistory';
-import getHistoricalPrice from '../../../coinGecko/getHistoricalPrice';
+import { getHistoricalPrice } from '../../../coinGecko/getHistoricalPrice';
 import helpers from '../../../../helpers';
 
 /**

@@ -1,5 +1,5 @@
 import { getOneCurvePoolRawData } from '../../protocolQueries';
-import getHistoricalPrice from '../../../coinGecko/getHistoricalPrice';
+import { getHistoricalPrice, getHistoricalPriceRange } from '../../../coinGecko/getHistoricalPrice';
 import helpers from '../../../../helpers';
 
 /**
@@ -13,6 +13,18 @@ import helpers from '../../../../helpers';
 async function getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs, userAccount, whitelist) {
   const timeFormatter = new Intl.DateTimeFormat('en-GB');
   const historicalCurveStats = await getOneCurvePoolRawData(field.name);
+
+  // get the historical prices within the date range for each seed token
+  //NOTE: here!!!!!
+  const txStartDate = userReceiptTokenTxs[0].timeStamp;
+  const txEndDate = userReceiptTokenTxs[userReceiptTokenTxs.length -1].timeStamp;
+  for (let seed of field.seedTokens) {
+    const seedHistPriceRange = await getHistoricalPriceRange(seed.priceApi, txStartDate, txEndDate)
+    console.log(' ---> seed.name', seed.name);
+    console.log(' ---> new Date(txStartDate *1000)', new Date(txStartDate *1000));
+    console.log(' ---> new Date(txEndDate *1000)', new Date(txEndDate *1000));
+    console.log(' ---> seedHistPriceRange', seedHistPriceRange);
+  }
   
   const liquidityHistory = userReceiptTokenTxs.map(async tx => {
     const txDate = new Date(Number(tx.timeStamp) * 1000);
