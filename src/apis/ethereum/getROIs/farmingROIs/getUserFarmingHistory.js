@@ -15,7 +15,6 @@ import helpers from '../../../../helpers';
  *      - in getHistoricalPrice(): assumes all crop tokens are base (and have a coinGecko price api code)
  */
 async function getUserFarmingHistory(field, userTokenTransactions, userNormalTransactions, trackedFields, userAccount) {
-  const timeFormatter = new Intl.DateTimeFormat('en-GB');
 
   //@dev: farmingTxs = [{tx, receiptToken, [cropToken,] [priceApi,] [reward | staking | unstaking]Amount}]
   const farmingTxs = helpers.sortFarmingTxs(field, userTokenTransactions, userNormalTransactions);
@@ -24,12 +23,10 @@ async function getUserFarmingHistory(field, userTokenTransactions, userNormalTra
 
     // add hist. price of the reward claim tx
     if (tx.cropToken) {
-      const geckoDateFormat = timeFormatter.format(new Date(Number(tx.tx.timeStamp) * 1000)).replace(/\//gi, '-');
-      const histTokenPrice = await getHistoricalPrice (tx.priceApi, geckoDateFormat);
+      const histTokenPrice = await getHistoricalPrice (tx.priceApi, tx.tx.timeStamp);
       tx.txDate = new Date(Number(tx.tx.timeStamp) * 1000);
       tx.pricePerToken = histTokenPrice;
     }
-      //CHECK: does this work properly with pure SNX staking?
       /* add historical prices of (un)staking transactions based on field issuing the receipt token used as this farming field's seed
          and price of the receipt token in case of a rewards claim for use in the Farming Field Details page
       */
