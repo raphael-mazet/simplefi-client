@@ -1,5 +1,5 @@
 import { getOneCurvePoolRawData } from '../../protocolQueries';
-import { getHistoricalPrice, getHistoricalPriceRange } from '../../../coinGecko/getHistoricalPrice';
+import { getHistoryFromFirstTx } from '../../../coinGecko/getHistoricalPrice';
 import helpers from '../../../../helpers';
 
 /**
@@ -14,29 +14,29 @@ async function getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs
   const timeFormatter = new Intl.DateTimeFormat('en-GB');
   const historicalCurveStats = await getOneCurvePoolRawData(field.name);
 
-  // get the historical prices within the date range for each seed token
-  //NOTE: here!!!!!
+  // get the historical prices from date of first token transaction
   const txStartDate = userReceiptTokenTxs[0].timeStamp;
-  const txEndDate = userReceiptTokenTxs[userReceiptTokenTxs.length -1].timeStamp;
+  const seedHistPrices = {};
   for (let seed of field.seedTokens) {
-    const seedHistPriceRange = await getHistoricalPriceRange(seed.priceApi, txStartDate, txEndDate)
-    console.log(' ---> seed.name', seed.name);
-    console.log(' ---> new Date(txStartDate *1000)', new Date(txStartDate *1000));
-    console.log(' ---> new Date(txEndDate *1000)', new Date(txEndDate *1000));
-    console.log(' ---> seedHistPriceRange', seedHistPriceRange);
+    seedHistPrices[seed.name] = await getHistoryFromFirstTx(seed.priceApi, txStartDate);
   }
-  
+
+  function findPriceAtDate (txTimestamp, seedHistPriceRange) {
+    const formattedTimestamp = new Date(txTimestamp * 1000).setHours(0,0,0);
+    const target = seedHistPriceRange.find(priceDateRecord => formattedTimestamp === new Date(priceDateRecord[0]).setHours(0,0,0));
+    return target ? target[1] : null;
+  }
+
   const liquidityHistory = userReceiptTokenTxs.map(async tx => {
     const txDate = new Date(Number(tx.timeStamp) * 1000);
     //@dev: simplify date to just day/month/year (no time) to find corresponding day in curve snapshot data
-    const compDate = timeFormatter.format(new Date(Number(tx.timeStamp) * 1000));
+    const compDate = timeFormatter.format(txDate);
     const historicalStat = historicalCurveStats.find(day => compDate === timeFormatter.format(new Date(Number(day.timestamp) * 1000)));
 
-    const geckoDateformat = compDate.replace(/\//gi, '-')
     let fieldHistReserveValue = 0;
 
     for (let seed of field.seedTokens) {
-      const histSeedValue = await getHistoricalPrice (seed.priceApi, geckoDateformat);
+      const histSeedValue = findPriceAtDate (tx.timeStamp, seedHistPrices[seed.name]);
 
       // Manage edge case where the seed token is Eth, and therefore has no tokenContract to pull decimals from
       let seedDecimalDivisor = 1e18;
