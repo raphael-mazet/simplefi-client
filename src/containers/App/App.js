@@ -164,8 +164,8 @@ function App() {
       <Nav splash={splash} userAccount={userAccount} history={history}/>
       <LoadingModal splash={splash} loadingMessage={loadingMessage}/>
         <Switch>
-          <Route path='/' exact render={() => <Welcome setUserAccount={setUserAccount} userAccount={userAccount} setSplash={setSplash}/>}/>
-          <Route path='/dashboard' exact render={() => <MyAssets userTokens={userTokens} userFields={userFields} userTokenPrices={userTokenPrices} setSplash={setSplash} setCurrentDetail={setCurrentDetail} allLoadedFlag={allLoadedFlag}/>}/>
+          <Route path='/' exact render={() => <Welcome setUserAccount={setUserAccount} userAccount={userAccount} setSplash={setSplash} setChangedAddress={setChangedAddress}/>}/>
+          <Route path='/dashboard' exact render={() => <MyAssets userTokens={userTokens} userFields={userFields} userAccount={userAccount} userTokenPrices={userTokenPrices} setSplash={setSplash} setCurrentDetail={setCurrentDetail} allLoadedFlag={allLoadedFlag} setChangedAddress={setChangedAddress} setUserAccount={setUserAccount} history={history}/>}/>
           <Route path='/token/:tokenName' exact render={() => <TokenDetails name={currentDetail} userTokens={userTokens} userTokenPrices={userTokenPrices} history={history}/>}/>
           <Route path='/farming/:fieldName' exact render={() => <FarmingFieldDetails name={currentDetail} userFields={userFields} history={history}/>}/>
           <Route path='/earning/:fieldName' exact render={() => <EarningFieldDetails name={currentDetail} userFields={userFields} history={history}/>}/>

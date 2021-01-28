@@ -6,7 +6,7 @@ import './Welcome.css';
 import { connectWallet } from '../../authentication/web3';
 import { useHistory } from 'react-router-dom';
 
-export default function Welcome ({setUserAccount, userAccount, setSplash}) {
+export default function Welcome ({setUserAccount, userAccount, setSplash, setChangedAddress}) {
 
   const [accountValue, setAccountValue] = useState('');
   const history = useHistory();
@@ -30,6 +30,7 @@ export default function Welcome ({setUserAccount, userAccount, setSplash}) {
     e.preventDefault();
     if (ethers.utils.isAddress(accountValue)) {
       setUserAccount([accountValue]);
+      setChangedAddress(true);
       history.push('/dashboard');
     } else {
       alert('Please enter a valid Ethereum address')
@@ -58,7 +59,7 @@ export default function Welcome ({setUserAccount, userAccount, setSplash}) {
         </div>
       </div>
       <div className="splash-connect">
-        <button className='welcome-button' onClick={() => connectWallet(setUserAccount, history, userAccount)}>{userAccount[0] ? 'View dashboard' : 'Connect wallet'}</button>
+        <button className='welcome-button' onClick={() => connectWallet(setUserAccount, setChangedAddress, history, userAccount)}>{userAccount[0] && userAccount[0] === window.ethereum?.selectedAddress ? 'View dashboard' : 'Connect wallet'}</button>
         <p>or</p>
         <button className='alt-connect-button' ref={accountButtonRef} onClick={(e) => toggleForm(e, accountFormRef, accountButtonRef)}>check an account</button>
         <form className="alt-connect-form" ref={accountFormRef} type="text" value={accountValue} onSubmit={handleSubmit}>
