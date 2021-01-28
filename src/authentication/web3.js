@@ -9,7 +9,7 @@ async function metamaskConnect () {
   }
 }
 
-async function connectWallet (setUserAccount, history, userAccount) {
+async function connectWallet (setUserAccount, setChangedAddress, history, userAccount) {
   if (window.ethereum) {
     const newAccount = await metamaskConnect();
     if (newAccount.error) {
@@ -19,6 +19,7 @@ async function connectWallet (setUserAccount, history, userAccount) {
         alert('Oops, something went wrong - please refresh the page');
       }
     } else if (newAccount[0] && newAccount[0] !== userAccount[0]) {
+      setChangedAddress(true);
       setUserAccount(newAccount);
       history.push('/dashboard');
     } else {

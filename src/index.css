@@ -11,7 +11,7 @@ body {
   position: relative;
 }
 
-a, button {
+a, button, input {
   all: unset;
 }
 

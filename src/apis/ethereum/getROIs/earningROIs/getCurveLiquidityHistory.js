@@ -1,5 +1,5 @@
 import { getOneCurvePoolRawData } from '../../protocolQueries';
-import getHistoricalPrice from '../../../coinGecko/getHistoricalPrice';
+import { getHistoricalPrice } from '../../../coinGecko/getHistoricalPrice';
 import helpers from '../../../../helpers';
 
 /**
@@ -13,18 +13,17 @@ import helpers from '../../../../helpers';
 async function getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs, userAccount, whitelist) {
   const timeFormatter = new Intl.DateTimeFormat('en-GB');
   const historicalCurveStats = await getOneCurvePoolRawData(field.name);
-  
+
   const liquidityHistory = userReceiptTokenTxs.map(async tx => {
     const txDate = new Date(Number(tx.timeStamp) * 1000);
     //@dev: simplify date to just day/month/year (no time) to find corresponding day in curve snapshot data
-    const compDate = timeFormatter.format(new Date(Number(tx.timeStamp) * 1000));
+    const compDate = timeFormatter.format(txDate);
     const historicalStat = historicalCurveStats.find(day => compDate === timeFormatter.format(new Date(Number(day.timestamp) * 1000)));
 
-    const geckoDateformat = compDate.replace(/\//gi, '-')
     let fieldHistReserveValue = 0;
 
     for (let seed of field.seedTokens) {
-      const histSeedValue = await getHistoricalPrice (seed.priceApi, geckoDateformat);
+      const histSeedValue = await getHistoricalPrice(seed.priceApi, tx.timeStamp)
 
       // Manage edge case where the seed token is Eth, and therefore has no tokenContract to pull decimals from
       let seedDecimalDivisor = 1e18;

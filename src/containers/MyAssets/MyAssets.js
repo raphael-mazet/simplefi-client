@@ -5,7 +5,7 @@ import SummaryBox from '../../components/SummaryBox/SummaryBox';
 import helpers from '../../helpers/index';
 import { holdingHeaders, holdingCurrencyCells, farmingHeaders, farmingCurrencyCells, earningHeaders, earningCurrencyCells } from '../../data/summaryHeaders';
 
-export default function MyAssets ({userTokens, userFields, userTokenPrices, setCurrentDetail, allLoadedFlag, setSplash}) {
+export default function MyAssets ({userTokens, userFields, userAccount, userTokenPrices, setCurrentDetail, allLoadedFlag, setSplash, setChangedAddress, setUserAccount, history}) {
   const [holdingHeadlines, setHoldingHeadlines] = useState({totalInvested: 0, totalUnclaimed: 0, totalValue: 0});
   const [farmingHeadlines, setFarmingHeadlines] = useState(['Loading', 'Loading']);
   const [earningHeadlines, setEarningHeadlines] = useState(['Loading', 'Loading']);
@@ -14,6 +14,15 @@ export default function MyAssets ({userTokens, userFields, userTokenPrices, setC
   const [earningValues, setEarningValues] = useState([]);
   const [totalROI, setTotalROI] = useState({farmingROI: 0, earningROI: 0});
 
+  useEffect (() => {
+    if (!userAccount[0] && window.ethereum.selectedAddress) {
+      setChangedAddress(true);
+      setUserAccount([window.ethereum.selectedAddress]);
+    } else if (!userAccount[0] && !window.ethereum.selectedAddress) {
+      history.push('/')
+    }
+  })
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   },[])

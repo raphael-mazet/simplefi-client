@@ -1,4 +1,4 @@
-import getHistoricalPrice from '../../../coinGecko/getHistoricalPrice';
+import { getHistoricalPrice } from '../../../coinGecko/getHistoricalPrice';
 import { getOneCurvePoolRawData } from '../../protocolQueries';
 
 /**
@@ -19,12 +19,11 @@ async function getOneCurveHistReceiptPrice(token, timestamp, trackedFields) {
   const txDate = new Date(Number(timestamp) * 1000);
   const compDate = timeFormatter.format(txDate);
   const historicalStat = historicalCurveStats.find(day => compDate === timeFormatter.format(new Date(Number(day.timestamp) * 1000)));
-  const geckoDateformat = compDate.replace(/\//gi, '-');
   
   let fieldHistReserveValue = 0;
 
   for (let seed of targetEarnField.seedTokens) {
-    const histSeedValue = await getHistoricalPrice(seed.priceApi, geckoDateformat);
+    const histSeedValue = await getHistoricalPrice(seed.priceApi, timestamp);
     //CHECK: handle error in case no seed index (some seeds only added later to contract and are not present in old raw stats)
     // Manage edge case where the seed token is Eth, and therefore has no tokenContract to pull decimals from
     let seedDecimalDivisor = 1e18;
@@ -57,7 +56,7 @@ async function getCurveHistReceiptPrices (field, receiptToken, userReceiptTokenT
       const decimaledReserve = historicalStat.balances[seed.seedIndex]/Number(`1e${seed.tokenContract.decimals}`);
       fieldHistReserveValue += histSeedValue * decimaledReserve;
     }
-       //TODO: check impact of split admin fees and use of virtual price
+    //TODO: check impact of split admin fees and use of virtual price
     const pricePerToken = fieldHistReserveValue / (historicalStat.supply / Number(`1e${receiptToken.tokenContract.decimals}`));
     return {tx, receiptToken, pricePerToken, txDate}
   })
