@@ -11,22 +11,15 @@ export default function Welcome ({setUserAccount, userAccount, setSplash}) {
   const [accountValue, setAccountValue] = useState('');
   const history = useHistory();
   const accountFormRef = useRef(null);
+  const accountButtonRef = useRef(null);
 
-  function toggleForm(e, ref) {
+  function toggleForm(e, formRef, buttonRef) {
     e.preventDefault();
-    const form = ref.current.style;
-    const button = e.target.classList;
-    if (form?.display === '' || form?.display === 'none') {
-      form.display = 'block';
-      form.animation = 'growDown 300ms ease-in-out forwards';
-      button.add('visible-add-account');
-      button.remove('invisible-add-account');
-    } else {
-      form.animation = 'shrinkUp 300ms ease-in-out forwards';
-      setTimeout(() => form.display = 'none', 300);
-      button.remove('visible-add-account');
-      button.add('invisible-add-account');
-    }
+    const form = formRef.current.style;
+    const button = buttonRef.current.style;
+    form.display = 'flex';
+    form.animation = 'growDown 300ms ease-in-out forwards';
+    button.display = 'none';
   }
 
   function handleChange(e) {
@@ -50,29 +43,29 @@ export default function Welcome ({setUserAccount, userAccount, setSplash}) {
   })
 
   return (
-    <div className='welcome'>
-      <div className='welcome-splash'>
-        <div className="splash-main">
-          <div className="splash-image">
-            <img src={simpleFiLogo} alt='simpleFi logo' className="welcome-splash-image" />
+    <>
+      <div className='welcome'>
+        <div className='welcome-splash'>
+          <div className="splash-main">
+            <div className="splash-image">
+              <img src={simpleFiLogo} alt='simpleFi logo' className="welcome-splash-image" />
+            </div>
+            <h2>Making decentralized finance accessible to everyone</h2>
           </div>
-          <h2>Making decentralized finance accessible to everyone</h2>
         </div>
-        <div className="splash-connect">
-            <button className='welcome-button' onClick={() => connectWallet(setUserAccount, history, userAccount)}>{userAccount[0] ? 'View dashboard' : 'Connect wallet'}</button>
-            <button className='alt-connect-button' onClick={(e) => toggleForm(e, accountFormRef)}>or check address</button>
-            <form ref={accountFormRef} type="text" value={accountValue} onSubmit={handleSubmit}>
-              <label>
-                Name:
-                <input type="text" name="name" onChange={handleChange}/>
-              </label>
-              <input type="submit" value="Submit" />
-            </form>
+        <div className="welcome-media">
+          <img src={simpleFiSplash} alt="Welcome to SimpleFi" className="welcome-media-image"/>
         </div>
       </div>
-      <div className="welcome-media">
-        <img src={simpleFiSplash} alt="Welcome to SimpleFi" className="welcome-media-image"/>
+      <div className="splash-connect">
+        <button className='welcome-button' onClick={() => connectWallet(setUserAccount, history, userAccount)}>{userAccount[0] ? 'View dashboard' : 'Connect wallet'}</button>
+        <p>or</p>
+        <button className='alt-connect-button' ref={accountButtonRef} onClick={(e) => toggleForm(e, accountFormRef, accountButtonRef)}>check an account</button>
+        <form className="alt-connect-form" ref={accountFormRef} type="text" value={accountValue} onSubmit={handleSubmit}>
+          <input className="alt-connect-input" type="text" name="name" placeholder="e.g. 0xf147b...a133934" onChange={handleChange}/>
+          <button className="alt-connect-submit" type="submit" value="Submit">Check</button>
+        </form>
       </div>
-    </div>
+    </>
   )
 }

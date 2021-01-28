@@ -31,26 +31,12 @@
 .welcome-splash h2 {
   all: unset;
   color: white;
+  font-size: 1.8em;
+  line-height: 2em;
   margin-left: 120px;
   margin-bottom: 50px;
 }
 
-.welcome-splash h1 {
-  margin-top: 50px;
-  font-size: 3.5em;
-  font-weight: 700;
-  font-family: 'Baloo 2', cursive;
-}
-
-.welcome-splash h2 {
-  font-size: 1.8em;
-  line-height: 2em;
-}
-
-.splash-connect {
-  display: flex;
-  margin-left: 120px;
-}
 
 .welcome-media {
   flex: 3;
@@ -62,20 +48,62 @@
   width: 85%;
 }
 
-Link {
-    text-decoration: none;
+.splash-connect {
+  display: flex;
+  align-items: center;
+  margin-left: 120px;
+}
+
+.splash-connect p {
+  display: flex;
+  color: var(--darkest-grey-font);
+  margin-right: 20px;
 }
 
 .welcome-button {
-  display: flex;
   justify-content: center;
   background-color: var(--sky-blue);
   color: white;
   font-size: 1.3em;
   font-weight: 300;
-  margin: 45px 50px 50px 0px;;
+  margin: 50px 20px 50px 0px;;
   padding: 12px 20px;
-  border-radius: 8px;
+  border-radius: 15px;
+  box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.5);
+  cursor: pointer;
+}
+
+.alt-connect-button {
+  color: var(--periwinkle);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.alt-connect-form {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position:relative;
+}
+
+.alt-connect-input {
+  font-weight: 300;
+  padding: 5px 20px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.5);
+  background-color: white;
+  font-size: 0.9em;
+  font-weight: 350;
+  color: var(--darkest-grey-font);
+}
+
+.alt-connect-submit{
+  background-color: var(--sky-blue);
+  color: white;
+  font-weight: 300;
+  margin-left: 10px;
+  padding: 5px 20px;
+  border-radius: 10px;
   box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.5);
   cursor: pointer;
 }
