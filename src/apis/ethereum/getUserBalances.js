@@ -30,7 +30,7 @@ async function getOneAccountBalance (account, targetContract) {
  * @returns {Array} - balances added to each field or token in the arry
  * @dev this function is used for both tracked tokens and fields
  */
-  //TODO: consider one call to Etherscan for token balances
+  //CHECK: consider one call to Etherscan for token balances
   function getAllUserBalances (account, fieldOrTokenArr) {
     const balancePromises = Promise.all(
       fieldOrTokenArr.map(
