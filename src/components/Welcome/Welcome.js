@@ -29,7 +29,7 @@ export default function Welcome ({setUserAccount, userAccount, setSplash, setCha
   function handleSubmit(e) {
     e.preventDefault();
     if (ethers.utils.isAddress(accountValue)) {
-      setUserAccount([accountValue]);
+      setUserAccount([accountValue.toLowerCase()]);
       setChangedAddress(true);
       history.push('/dashboard');
     } else {
