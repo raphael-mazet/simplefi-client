@@ -1,5 +1,3 @@
-// import { getTokens, getUserFieldTokens } from './simpleFi/tokens';
-// import { getFields } from './simpleFi/fields';
 import {
   getTokens,
   getUserFieldTokens,

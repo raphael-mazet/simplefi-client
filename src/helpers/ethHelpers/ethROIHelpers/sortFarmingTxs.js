@@ -36,7 +36,7 @@ function sortFarmingTxs(field, userTokenTransactions, userNormalTransactions) {
         }
       }
 
-      //ASK: should this rather be named unclaimedReward contract?
+      //CHECK: should this rather be named unclaimedReward contract?
       if (tx.from === rewardWithdrawalContract.address.toLowerCase() || addressInMethod) {
         const cropToken = cropTokenAddresses[tx.contractAddress];
         //@dev: assumes all crop tokens are base tokens in DB
