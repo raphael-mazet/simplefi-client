@@ -31,10 +31,10 @@ function createBalanceContracts (collection) {
 
     //for tokens
     else if (element.name !== 'Eth') {
-      const { address, contractInterface } = element;
+      const { address, contractInterface, decimals } = element;
       element.tokenContract = {
         contract: new ethers.Contract(address, contractInterface.abi, provider),
-        decimals: contractInterface.decimals
+        decimals
       }
     }
 

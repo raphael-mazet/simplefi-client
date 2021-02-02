@@ -7,6 +7,7 @@ import provider from './ethProvider';
  * @param {contract} string token contract (optional - defaults to Eth, which does not have a contract)
  * @returns {string} account balance
  */
+//TODO: memoize - some tokens and fields fetch balances from same contract
 async function getOneAccountBalance (account, targetContract) {
   if (!targetContract) {
     const balance = await provider.getBalance(account);
