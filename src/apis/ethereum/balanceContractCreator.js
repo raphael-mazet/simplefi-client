@@ -24,7 +24,7 @@ function createBalanceContracts (collection) {
       element.fieldContracts = {
         balanceContract: {
           contract: new ethers.Contract(balanceAddress.address, balanceAddress.contractInterface.abi, provider),
-          decimals: balanceAddress.contractInterface.decimals
+          decimals: balanceAddress.decimals
         }
       }
     }
