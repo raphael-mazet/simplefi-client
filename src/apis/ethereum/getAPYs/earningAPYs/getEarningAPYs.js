@@ -1,10 +1,12 @@
 import getCurveEarningAPY from './getCurveEarningAPY';
-import getUniswapEarningAPY from './getUniswapEarningAPY'
+import getUniswapEarningAPY from './getUniswapEarningAPY';
+import getAaveEarningAPY from './getAaveEarningAPY';
  
  async function getEarningAPYs (field, userTokens, userTokenPrices) {
 
   //get pair address
   const earningAddress = field.contractAddresses.find(address => address.addressTypes.includes('earning'));
+  
   let APY;
 
   switch (earningAddress.contractInterface.name) {
@@ -20,10 +22,14 @@ import getUniswapEarningAPY from './getUniswapEarningAPY'
       APY = await getCurveEarningAPY(field);
       break;
 
-    default:
-
-  }
-
+    case "aave v2 lending pool":
+      APY = await getAaveEarningAPY(field);
+      break;
+      
+      default:
+        
+      }
+      
   return APY;
 }
 
