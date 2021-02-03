@@ -18,13 +18,7 @@ async function getFieldSeedReserves (field, token, tokenContract, cache) {
   const reserveAddress = helpers.findFieldAddressType(field, 'underlying');
   const { addressType, address, abi } = reserveAddress;
 
-  // @dev: the default 18 is to deal with the edge case where the target token is Eth and therefore has no contractInterface
-  let decimals;
-  if (token.contractInterface) {
-    decimals = token.contractInterface.decimals;
-  } else {
-    decimals = 18;
-  }
+  const decimals = token.decimals;
   const tokenIndex = token.seedIndex;
 
   let fieldReserve;
