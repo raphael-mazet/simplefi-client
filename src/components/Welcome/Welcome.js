@@ -63,7 +63,7 @@ export default function Welcome ({setUserAccount, userAccount, setSplash, setCha
         <p>or</p>
         <button className='alt-connect-button' ref={accountButtonRef} onClick={(e) => toggleForm(e, accountFormRef, accountButtonRef)}>check an account</button>
         <form className="alt-connect-form" ref={accountFormRef} type="text" value={accountValue} onSubmit={handleSubmit}>
-          <input className="alt-connect-input" type="text" name="name" placeholder="e.g. 0xf147b...a133934" onChange={handleChange}/>
+          <input className="alt-connect-input" type="text"  placeholder="e.g. 0xf147b...a133934" name="name" onFocus={e => e.target.placeholder = ''} onBlur={e => e.target.placeholder = 'e.g. 0xf147b...a133934'} onChange={handleChange}/>
           <button className="alt-connect-submit" type="submit" value="Submit">Check</button>
         </form>
       </div>
