@@ -16,7 +16,7 @@ const getAaveBalanceHistory =
       query getUserBalanceHistory ($userAccount: String!) {
         user (id: $userAccount){
           reserves {
-            aTokenBalanceHistory {
+            aTokenBalanceHistory (first: 1000) {
               id
               timestamp
               currentATokenBalance
