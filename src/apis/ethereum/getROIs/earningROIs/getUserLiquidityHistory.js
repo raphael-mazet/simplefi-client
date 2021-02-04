@@ -1,5 +1,6 @@
 import getCurveLiquidityHistory from './getCurveLiquidityHistory';
 import getUniswapLiquidityHistory from './getUniswapLiquidityHistory';
+import getAaveLiquidityHistory from './getAaveLiquidityHistory';
 import helpers from '../../../../helpers';
 
 /**
@@ -11,6 +12,7 @@ import helpers from '../../../../helpers';
  * @param {String} userAccount - user's ethereum account
  * @dev switch is based on the field's protocol name, assuming liquidity history
  *      extraction method is the same for all of a protocol's earning fields 
+ *      whitelist is used to identify when receiptTokens are staked elsewhere
  * @return {Array} - a list of user transactions ready to be processed by calcROI helper: {
  *    pricePerToken: at the time of the transaction
  *    one of four tx types: txIn, txOut, staked or unstaked (one filled with value, others undefined)
@@ -35,7 +37,12 @@ async function getUserLiquidityHistory(trackedFields, field, receiptToken, userR
     case "Uniswap":
       liquidityHistory = await getUniswapLiquidityHistory(field, userReceiptTokenTxs, userAccount, whitelist)
       break;
-  
+
+    case "Aave":
+      console.log(' ---> made you look!');
+      liquidityHistory = await getAaveLiquidityHistory(field, receiptToken, userReceiptTokenTxs, userAccount, whitelist)
+      break;
+
     default:
       break;
   }
