@@ -12,15 +12,13 @@ export default function formatHeadlines(tableName, headlines) {
     formattedHeadlines.push(`${formatter.format(totalUnclaimed / totalValue)} unclaimed`);
     perfClasses = [false, false];
   } else {
-    let roiSign;
+    let roiSign = '';
     if (headlines.ROI > 0) {
       roiSign = '+';
       perfClasses.push('green');
     } else if (headlines.ROI < 0) {
-      roiSign = '-';
       perfClasses.push('red');
     } else {
-      roiSign = '';
       perfClasses.push(null)
     }
 
