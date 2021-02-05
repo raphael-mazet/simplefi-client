@@ -39,7 +39,6 @@ async function getUserLiquidityHistory(trackedFields, field, receiptToken, userR
       break;
 
     case "Aave":
-      console.log(' ---> made you look!');
       liquidityHistory = await getAaveLiquidityHistory(field, receiptToken, userReceiptTokenTxs, userAccount, whitelist)
       break;
 

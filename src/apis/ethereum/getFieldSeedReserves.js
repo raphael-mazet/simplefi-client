@@ -1,10 +1,23 @@
 import { ethers } from 'ethers';
 import provider from './ethProvider';
+import getTotalFieldSupply from './getTotalFieldSupply';
 import helpers from '../../helpers'
 
-//CHECK: add cache here instead of in parent function?
-//FIXME: edge case - this function may not always work well when the token is Eth
-async function getFieldSeedReserves (field, token, tokenContract, cache) {
+//TODO: use The Graph to get reserves for fields belonging to the same protocol in bulk & reduce calls to the blockchain
+/**
+ * 
+ * @param {Object} field - currently analysed field
+ * @param {Object} token - currently analysed token
+ * @param {Object} tokenContract - ethers.js contract used to query the blockchain
+ * @param {Array} cache - list of the seed token reserves of each user field
+ * @return {Integer} - returns the field's total reserve in the target token
+ * @dev - this function has two objectives: 
+ *          * return the field's token reserve
+ *          * push the field's reserves to the main Rewinder() cache
+ *      - the cache is then used by Rewinder to merge the field's total reserves
+ *        and total supplies for downstream processing by the App 
+ */
+async function getFieldSeedReserves (field, token, tokenContract, cache, totalFieldSupplyCache) {
   
   //Check in cache if reserves already fetched
   const findFieldinCache = cache.filter(fieldWithReserves => fieldWithReserves.fieldName === field.name)[0];
@@ -48,12 +61,19 @@ async function getFieldSeedReserves (field, token, tokenContract, cache) {
       break;
 
     case "uniswap":
-      const reserveContract = field.fieldContracts.balanceContract.contract;
-      const _fieldReserves = await reserveContract.getReserves();
+      const uniReserveContract = field.fieldContracts.balanceContract.contract;
+      const _fieldReserves = await uniReserveContract.getReserves();
       fieldReserve = Number(ethers.utils.formatUnits(_fieldReserves[tokenIndex], decimals));
       break;
 
-    default:
+    case "aave":
+      //FIXME: unnecessarily convoluted, requires import of getTotalFieldSupply
+      //FIXME: is the same as the total aToken supply as pegged 1:1 to underlying asset
+      //FIXME: consider bulk subgraphQuery
+      fieldReserve = await getTotalFieldSupply (field.name, field.fieldContracts.balanceContract, decimals, totalFieldSupplyCache);
+      break;
+    
+      default:
       fieldReserve = await tokenContract.contract.balanceOf(address);
       fieldReserve = Number(ethers.utils.formatUnits(fieldReserve, decimals));
   }

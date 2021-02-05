@@ -19,9 +19,11 @@ async function getROIs(userAccount, userFields, trackedFields, userTokenTransact
 
     let currInvestmentValue = 0;
     if (field.unstakedUserInvestmentValue) {
+      console.log(' ---> field.unstakedUserInvestmentValue', field.unstakedUserInvestmentValue);
       currInvestmentValue += field.unstakedUserInvestmentValue;
     }
     if (field.stakedBalance) {
+      console.log(' ---> field.stakedBalance', field.stakedBalance);
       currInvestmentValue += field.stakedBalance.reduce((acc, curr) => acc + curr.userInvestmentValue, 0);
     }
 
@@ -37,6 +39,8 @@ async function getROIs(userAccount, userFields, trackedFields, userTokenTransact
         //TODO: rename variable to totalCurrInvValue
         field.investmentValue = currInvestmentValue;
         field.userTxHistory = userLiquidityHistory;
+        console.log(' ---> currInvestmentValue', currInvestmentValue);
+        console.log(' ---> userLiquidityHistory', userLiquidityHistory);
         //@dev: {allTimeROI, absReturnValue, histInvestmentValue}
         field.earningROI = helpers.calcEarningROI(currInvestmentValue, userLiquidityHistory);
       }

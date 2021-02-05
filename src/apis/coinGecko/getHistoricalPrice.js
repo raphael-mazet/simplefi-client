@@ -21,11 +21,8 @@ function getHistoricalPriceFromFirstTx (tokenApi, firstTxTimestamp) {
   if (dayRangePriceCache[tokenApi]) {
     cachedStartDate = dayRangePriceCache[tokenApi][0][0];    
   }
-  console.log(' ---> cachedStartDate', cachedStartDate);
-  console.log(' ---> startDate', startDate);
 
   if (!cachedStartDate || startDate < cachedStartDate) {
-    console.log(' ---> fetched!');
     const daysAgo = Math.ceil((Date.now() - startDate) / 86400000);
     return fetchRequest(baseUrl + priceEP + tokenApi + historyDaysString + daysAgo + '&interval=daily')
       .then(histData => {
@@ -34,7 +31,6 @@ function getHistoricalPriceFromFirstTx (tokenApi, firstTxTimestamp) {
         return dayRangePriceCache[tokenApi];
       })
   } else {
-    console.log(' ---> cache baby!');
     return dayRangePriceCache[tokenApi];
   }
 }

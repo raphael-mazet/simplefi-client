@@ -3,20 +3,20 @@ import { getHistoricalPrice } from '../../../coinGecko/getHistoricalPrice';
 import helpers from '../../../../helpers';
 
 //TODO: sort whitelist
-//HERE!!!
 async function getAaveLiquidityHistory (field, receiptToken, userReceiptTokenTxs, userAccount, whitelist) {
   const rawData = await getAaveBalanceHistory(userAccount);
   const fieldBalanceHistory = rawData.data.user.reserves
     .filter(reserve => reserve.reserve.aToken.id === receiptToken.address.toLowerCase())
       [0].aTokenBalanceHistory;
 
-  /*@dev: this await is meant to ensure only one call is made to Coingecko
-          it assumes that Etherscan always returns the earliest user transaction first
-          without this, userReceiptTokenTxs are mapped before the price cache can be initialised
+  /*@dev: this await initialises the getHistoricalPrice cache and ensures only
+          one call is made to Coingecko. It assumes that Etherscan always returns
+          userReceiptTokenTxs ordered by ascending date (earliest at index [0])
   */
   await getHistoricalPrice(receiptToken.priceApi, userReceiptTokenTxs[0].timeStamp);
 
   const liquidityHistory = userReceiptTokenTxs.map(async tx => {
+    // TODO to calculate interest?
     const targetSnapshot = fieldBalanceHistory.find(snapshot => Number(tx.timeStamp) === snapshot.timestamp)
     const pricePerToken = await getHistoricalPrice(receiptToken.priceApi, tx.timeStamp);
 
