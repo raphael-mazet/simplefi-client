@@ -21,8 +21,6 @@ async function rewinder (userFields, trackedTokens, trackedFields) {
      or 2) how many input tokens the field holds (in cases where it issues no receipts)
      */
     //NOTE: This returns correctly for Aave but is unnecessary as the user's underlying balance is the same as it's field balance
-    //CHECK: can Aave push the balanceObj directly without going through tokenBalanceExtractor?
-    //CHECK: only maybe: check what would happen if it feeds into a Curve Pool - can it still extract???
     const totalMainFieldSupply = await getTotalFieldSupply(mainField.name, contract, decimals, totalFieldSupplyCache);
     const userShareOfMainField = mainField.userBalance / totalMainFieldSupply;
     //@dev: will extract the balance of underlying seed tokens owned by the user
@@ -67,8 +65,8 @@ async function rewinder (userFields, trackedTokens, trackedFields) {
     let fieldSeedReserve = await getFieldSeedReserves(field, token, tokenContract, fieldSeedReserveCache, totalFieldSupplyCache);
     
     // if isBase or !isBase
+    //NOTE: for Aave, this is redundant - literally just reverts the operation in top end of rewinder
     const userTokenBalance = fieldSeedReserve * share;
-    //NOTE: for Aave, this literally just reverts the operation in top end of rewinder - pointless
     const balanceObj = {token, userTokenBalance, field};
     
     // get subfield path
