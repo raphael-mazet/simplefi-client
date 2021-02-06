@@ -19,6 +19,8 @@ import getAaveEarningAPY from './getAaveEarningAPY';
     case "curve swap 3 (3Pool)":
     case "curve swap 2 (hBTC)":
     case "curve swap 2 (stEth)":
+    case "curve swap 3 (aave)":
+      //FIXME: simplify this case condition
       APY = await getCurveEarningAPY(field);
       break;
 

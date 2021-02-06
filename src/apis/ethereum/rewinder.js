@@ -101,4 +101,3 @@ async function rewinder (userFields, trackedTokens, trackedFields) {
 }
 
 export default rewinder;
-

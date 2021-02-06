@@ -42,7 +42,7 @@ async function getFieldSeedReserves (field, token, tokenContract, cache, totalFi
 
     case "curveSwap":
       
-      //TODO: explain why this check is needed
+      //CHECK: this check is needed because of multiple calls to getFieldSeedReserves for the same fields
       if (!field.fieldContracts.underlyingContract) {
         field.fieldContracts.underlyingContract = new ethers.Contract(address, abi, provider);
       }
