@@ -42,7 +42,7 @@ async function getROIs(userAccount, userFields, trackedFields, userTokenTransact
     }
 
     if (field.cropTokens.length) {
-      //@dev: [{tx, [crop | receipt]Token, [priceApi,] [reward | staking | unstaking]Value, pricePerToken, txDate}]
+      //@dev: [{tx, [crop | receipt]Token, [priceApi,] [reward | staking | unstaking]Value, pricePerToken, txDate, [userBalanceAfterTx]}]
       const userFarmingHistory = await getUserFarmingHistory(field, userTokenTransactions, userNormalTransactions, trackedFields, userAccount);
 
       field.investmentValue = currInvestmentValue;

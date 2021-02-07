@@ -18,6 +18,7 @@ import helpers from '../../../../helpers';
  *    one of four tx types: txIn, txOut, staked or unstaked (one filled with value, others undefined)
  *    txDate: date object
  *    tx: object containing all tx details (content can vary based on source)
+ *    userBalanceAfterTx: only for certain fields that continuously update user token balances (e.g. aTokens)
  *  }
  */
 async function getUserLiquidityHistory(trackedFields, field, receiptToken, userReceiptTokenTxs, userAccount) {
@@ -39,7 +40,7 @@ async function getUserLiquidityHistory(trackedFields, field, receiptToken, userR
       break;
 
     case "Aave":
-      liquidityHistory = await getAaveLiquidityHistory(field, receiptToken, userReceiptTokenTxs, userAccount, whitelist)
+      liquidityHistory = await getAaveLiquidityHistory(receiptToken, userReceiptTokenTxs, userAccount, whitelist)
       break;
 
     default:
