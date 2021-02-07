@@ -16,6 +16,7 @@ import {
   combineFieldSuppliesAndReserves,
   sortLiquidityTxs,
   sortFarmingTxs,
+  sortGetROIsFields,
   createWhitelist,
   calcEarningROI,
   calcFarmingROI
@@ -48,6 +49,7 @@ export default {
   combineFieldSuppliesAndReserves,
   sortLiquidityTxs,
   sortFarmingTxs,
+  sortGetROIsFields,
   createWhitelist,
   calcEarningROI,
   calcFarmingROI,

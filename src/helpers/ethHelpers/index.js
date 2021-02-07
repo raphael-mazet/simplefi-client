@@ -3,6 +3,7 @@ import combineFieldSuppliesAndReserves from './combineFieldSuppliesAndReserves';
 import {
   sortLiquidityTxs,
   sortFarmingTxs,
+  sortGetROIsFields,
   createWhitelist,
   calcEarningROI,
   calcFarmingROI,
@@ -15,6 +16,7 @@ export {
   combineFieldSuppliesAndReserves,
   sortLiquidityTxs,
   sortFarmingTxs,
+  sortGetROIsFields,
   createWhitelist,
   calcEarningROI,
   calcFarmingROI,
