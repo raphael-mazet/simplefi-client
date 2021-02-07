@@ -52,22 +52,29 @@ function addLockedTokenBalances (rewoundTokens, userTokens) {
 
 
 function addStakedFieldBalances (rewoundFields, userFields) {
-  //CHECK: is this necessary?
+  //CHECK: is this spread necessary?
   const updatedUserFields = [...userFields];
+
   rewoundFields.forEach(rewoundField => {
-    //identify if user already has a balance for curr field
-    const existingUserField = updatedUserFields.find(userField => userField.fieldId === rewoundField.feederField.fieldId);
-    //if so, add rewound field balance to the subField balance
-    if (existingUserField && existingUserField.stakedBalance) {
-      existingUserField.stakedBalance.push({balance: rewoundField.userFieldBalance, parentField: rewoundField.parentField});
-    }
-    else if (existingUserField) existingUserField.stakedBalance = [{balance: rewoundField.userFieldBalance, parentField: rewoundField.parentField}];
-    //otherwise: create a new user Field
-    else {
-      //CHECK: check this is necessary
-      const newUserField = JSON.parse(JSON.stringify(rewoundField.feederField));
-      newUserField.stakedBalance = [{balance: rewoundField.userFieldBalance, parentField: rewoundField.parentField}]
-      updatedUserFields.push(newUserField);
+
+    /*@dev Check if the field should be counted (flag set in rewinder to avoid double
+      calcs when one earning field's receipt token is seed for another earning field)
+    */
+    if (!rewoundField.excludeFeeder) {
+      //identify if user already has a balance for curr field
+      const existingUserField = updatedUserFields.find(userField => userField.fieldId === rewoundField.feederField.fieldId);
+      //if so, add rewound field balance to the subField balance
+      if (existingUserField && existingUserField.stakedBalance) {
+        existingUserField.stakedBalance.push({balance: rewoundField.userFieldBalance, parentField: rewoundField.parentField});
+      }
+      else if (existingUserField) existingUserField.stakedBalance = [{balance: rewoundField.userFieldBalance, parentField: rewoundField.parentField}];
+      //otherwise: create a new user Field
+      else {
+        //CHECK: check this is necessary
+        const newUserField = JSON.parse(JSON.stringify(rewoundField.feederField));
+        newUserField.stakedBalance = [{balance: rewoundField.userFieldBalance, parentField: rewoundField.parentField}]
+        updatedUserFields.push(newUserField);
+      }
     }
   })
   return updatedUserFields;

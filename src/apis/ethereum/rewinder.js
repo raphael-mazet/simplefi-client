@@ -81,8 +81,7 @@ async function rewinder (userFields, trackedTokens, trackedFields) {
       const parentField = field;
 
       //TODO: stop this from changing tracked Fields as well as user fields
-      //TODO: avoid populating this multiple times (once in App.js)
-      //TODO: document
+      //TODO: avoid populating this multiple times (another time in App.js)
       [feederField] = helpers.populateFieldTokensFromCache([feederField], trackedTokens);
 
       const { contract, decimals } = feederField.fieldContracts.balanceContract;
@@ -90,8 +89,14 @@ async function rewinder (userFields, trackedTokens, trackedFields) {
       const userFieldBalance = fieldSeedReserve * share;
       const userFeederShare = userFieldBalance / totalFeederSupply;
 
-      //rewoundFieldBalances will contain any field with a receipt token that was fed into a field the user has staked in
-      userFeederFieldBalances.push({feederField, userFieldBalance, parentField});
+      /* @dev: - uFFB will be recorded in state as rewoundFieldBalances, and will contain any field
+                 with a receipt token that was fed into the currently analysed field
+               - currently earning fields that receive LP/receipt tokens are flagged as "excludeFeeder"
+                 so they are not displayed or included in ROI calcs
+      */
+      const excludeFeeder = field.isEarning ? true : false;
+
+      userFeederFieldBalances.push({feederField, userFieldBalance, parentField, excludeFeeder});
       
       for (const token of feederField.seedTokens) {
         await tokenBalanceExtractor(token, feederField, userFeederShare, parentField)
