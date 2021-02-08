@@ -30,7 +30,6 @@ async function getROIs(userAccount, userFields, trackedFields, userTokenTransact
       //TODO: push these 2 lines to the getUserLiquidityHistory function for consistency & readbility
       const receiptToken = trackedTokens.find(trackedToken => trackedToken.tokenId === field.receiptToken);
       const userReceiptTokenTxs = userTokenTransactions.filter(tx => tx.contractAddress === receiptToken.address.toLowerCase());
-      
       const userLiquidityHistoryPromises = await getUserLiquidityHistory(trackedFields, field, receiptToken, userReceiptTokenTxs, userAccount);
       if (userLiquidityHistoryPromises) {
         const userLiquidityHistory = await Promise.all(userLiquidityHistoryPromises);
@@ -43,7 +42,7 @@ async function getROIs(userAccount, userFields, trackedFields, userTokenTransact
     }
 
     if (field.cropTokens.length) {
-      //@dev: [{tx, [crop | receipt]Token, [priceApi,] [reward | staking | unstaking]Value, pricePerToken, txDate}]
+      //@dev: [{tx, [crop | receipt]Token, [priceApi,] [reward | staking | unstaking]Value, pricePerToken, txDate, [userBalanceAfterTx]}]
       const userFarmingHistory = await getUserFarmingHistory(field, userTokenTransactions, userNormalTransactions, trackedFields, userAccount);
 
       field.investmentValue = currInvestmentValue;

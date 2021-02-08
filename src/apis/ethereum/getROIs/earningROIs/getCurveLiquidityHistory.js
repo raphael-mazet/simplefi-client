@@ -26,6 +26,7 @@ async function getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs
       const histSeedValue = await getHistoricalPrice(seed.priceApi, tx.timeStamp)
 
       // Manage edge case where the seed token is Eth, and therefore has no tokenContract to pull decimals from
+      //TODO: pull decimals directly from seedToken rather than from its token contract - check createBalanceContracts and populateFromCache
       let seedDecimalDivisor = 1e18;
       if (seed.tokenContract) {
         seedDecimalDivisor = Number(`1e${seed.tokenContract.decimals}`);

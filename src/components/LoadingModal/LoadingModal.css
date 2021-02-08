@@ -22,7 +22,7 @@
   box-shadow: 5px 5px 10px 0px var(--periwinkle);
   width: 70%;
   max-width: 600px;
-  height: 40%;
+  min-height: 230px;
   margin: auto;
   border-radius: 20px;
 }
@@ -55,7 +55,7 @@
 .loading-animation{
   position: absolute;
   bottom: 0;
-  margin-bottom: 60px;
+  margin-bottom: 35px;
   margin-left: auto;
   margin-right: auto;
   left: 0;

@@ -46,7 +46,10 @@ export default function EarningFieldDetails ({name, userFields, history}) {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (name) {
-      const targetFarms = userFields.filter(field => field.seedTokens[0].tokenId === currentField.receiptToken)
+      /* @dev: the !field.isEarning check is similar to Rewinder()'s excludeFeeder flag it avoids
+               showing any earning Fields that this current field's receipt token feeds into
+      */
+      const targetFarms = userFields.filter(field => !field.isEarning && field.seedTokens[0].tokenId === currentField.receiptToken)
       setFarmingFields(targetFarms);
       setCombinedFields({earningField: currentField, farmingFields: targetFarms});
       setCombinedROI(helpers.calcCombinedROI({earningField: currentField, farmingFields: targetFarms}));

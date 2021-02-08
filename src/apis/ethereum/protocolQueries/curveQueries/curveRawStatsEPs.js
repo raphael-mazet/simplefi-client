@@ -7,7 +7,8 @@ export default {
       'Curve: sBTC pool': 'rens',
       'Curve: hBTC pool': 'hbtc',
       'Curve: stEth pool': 'steth',
-      'Curve: 3pool': '3pool'
+      'Curve: 3pool': '3pool',
+      'Curve: Aave pool': 'aave'
     },
   indivPoolConcat: '-1440m.json'
 }

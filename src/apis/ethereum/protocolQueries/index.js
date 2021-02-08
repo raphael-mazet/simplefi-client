@@ -4,6 +4,11 @@ import {
 } from './uniswapQueries/getUniswapGraphData';
 import uniswapQueries from './uniswapQueries/uniswapGraphQueryStrings';
 import {
+  getAaveReserveLiquidityRate,
+  getAaveBalanceHistory
+} from './aaveQueries/getAaveSubgraphData';
+import aaveQueries from './aaveQueries/aaveSubgraphQueryStrings';
+import {
   getOneCurvePoolRawData,
   getAllCurvePoolRawAPY
 } from './curveQueries/getRawCurvePoolData';
@@ -14,6 +19,9 @@ export {
   getUniswapPoolVolume,
   getUniswapBalanceHistory,
   uniswapQueries,
+  getAaveReserveLiquidityRate,
+  getAaveBalanceHistory,
+  aaveQueries,
   getOneCurvePoolRawData,
   getAllCurvePoolRawAPY,
   curveEPs

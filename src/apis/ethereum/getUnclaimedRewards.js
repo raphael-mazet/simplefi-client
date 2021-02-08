@@ -40,7 +40,7 @@ async function getUnclaimedRewards(userAccount, trackedFields) {
             unclaimedBalance = await unclaimedRewardContract[cropToken.unclaimedBalanceMethod](userAccount);
         }
 
-        unclaimedBalance = Number(ethers.utils.formatUnits(unclaimedBalance, targetAddress.contractInterface.decimals));
+        unclaimedBalance = Number(ethers.utils.formatUnits(unclaimedBalance, targetAddress.decimals));
         if (unclaimedBalance) {
           unclaimedCropBalances.push({field, tokenId, unclaimedBalance});
         }

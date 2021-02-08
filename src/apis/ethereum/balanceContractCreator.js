@@ -24,17 +24,17 @@ function createBalanceContracts (collection) {
       element.fieldContracts = {
         balanceContract: {
           contract: new ethers.Contract(balanceAddress.address, balanceAddress.contractInterface.abi, provider),
-          decimals: balanceAddress.contractInterface.decimals
+          decimals: balanceAddress.decimals
         }
       }
     }
 
     //for tokens
     else if (element.name !== 'Eth') {
-      const { address, contractInterface } = element;
+      const { address, contractInterface, decimals } = element;
       element.tokenContract = {
         contract: new ethers.Contract(address, contractInterface.abi, provider),
-        decimals: contractInterface.decimals
+        decimals
       }
     }
 

@@ -20,7 +20,7 @@ import getSecondaryFieldAPYs from './getSecondaryFieldAPYs';
 async function getCurveFarmingAPY(rewardRateAddress, field, userTokenPrices) {
 
   const curveIndex = field.cropTokens.length === 1 ? 0 : field.cropTokens.findIndex(cropToken => cropToken.name === 'Curve');
-  const curveDecimals = field.cropTokens[curveIndex].contractInterface.decimals;
+  const curveDecimals = field.cropTokens[curveIndex].decimals;
   const rewardWeightAddress = field.contractAddresses.find(address => address.addressTypes.includes('rewardWeight'));
   const rewardRateContract = new ethers.Contract(rewardRateAddress.address, rewardRateAddress.contractInterface.abi, provider);
   const rewardWeightContract = new ethers.Contract(rewardWeightAddress.address, rewardWeightAddress.contractInterface.abi, provider);

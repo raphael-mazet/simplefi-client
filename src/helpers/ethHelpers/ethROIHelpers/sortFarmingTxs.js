@@ -21,6 +21,7 @@ function sortFarmingTxs(field, userTokenTransactions, userNormalTransactions) {
 
   const sortedTxs = userTokenTransactions.reduce((acc, tx) => {
 
+    //@dev: assumes only one seed token per staking/farming field
     const receiptToken = field.seedTokens[0];
 
     //identify rewards claimed
@@ -36,27 +37,26 @@ function sortFarmingTxs(field, userTokenTransactions, userNormalTransactions) {
         }
       }
 
-      //ASK: should this rather be named unclaimedReward contract?
+      //CHECK: should this rather be named unclaimedReward contract?
       if (tx.from === rewardWithdrawalContract.address.toLowerCase() || addressInMethod) {
         const cropToken = cropTokenAddresses[tx.contractAddress];
         //@dev: assumes all crop tokens are base tokens in DB
-        const priceApi = cropToken.priceApi;
-        const rewardAmount = tx.value / Number(`1e${cropToken.contractInterface.decimals}`);
+        const {priceApi, decimals} = cropToken
+        const rewardAmount = tx.value / Number(`1e${decimals}`);
         return [...acc, {tx, cropToken, priceApi, rewardAmount, receiptToken}]
       } else {
         return acc;
       }
 
-      //@dev: assumes only one seed token per staking/farming field
-    } else if (tx.contractAddress === field.seedTokens[0].address.toLowerCase()) {
+    } else if (tx.contractAddress === receiptToken.address.toLowerCase()) {
         //identify staking tx
         //@dev: assumes the correct deposit method was used
         if (tx.to === rewardDepositContract.address.toLowerCase()) {
-          const stakingAmount = tx.value / Number(`1e${receiptToken.contractInterface.decimals}`);
+          const stakingAmount = tx.value / Number(`1e${receiptToken.decimals}`);
           return [...acc, {tx, receiptToken, stakingAmount}];
-        //identify unstaking tx
+          //identify unstaking tx
         } else if (tx.from === rewardWithdrawalContract.address.toLowerCase()) {
-          const unstakingAmount = tx.value / Number(`1e${receiptToken.contractInterface.decimals}`);
+          const unstakingAmount = tx.value / Number(`1e${receiptToken.decimals}`);
           return [...acc, {tx, receiptToken, unstakingAmount}];
         } else {
           return acc;

@@ -26,9 +26,11 @@ export default async function getSecondaryFieldAPYs(primaryField, userTokenPrice
         })
 
         //reformat the secondary field to be processed by getFarmingAPY
+        //@dev: lifts data up from the primaryField's secondaryField property
         secondaryField.cropTokens.forEach(targetCropToken => {
           targetCropToken.name = targetCropToken.token.name;
           targetCropToken.contractInterface = targetCropToken.token.contractInterface;
+          targetCropToken.decimals = targetCropToken.token.decimals;
         });
         secondaryField.seedTokens.forEach(targetSeedToken => {
           targetSeedToken.name = targetSeedToken.token.name;
@@ -39,7 +41,8 @@ export default async function getSecondaryFieldAPYs(primaryField, userTokenPrice
         const {address, contractInterface} = secondaryField.contractAddresses.find(contractAddress => contractAddress.addressTypes.includes('balance'));
         const secondaryFieldBalanceContract = new ethers.Contract(address, contractInterface.abi, provider);
         const secondarySupplyBigInt = await secondaryFieldBalanceContract.totalSupply();
-        secondaryField.totalSupply = Number(ethers.utils.formatUnits(secondarySupplyBigInt, cropToken.contractInterface.decimals));
+
+        secondaryField.totalSupply = Number(ethers.utils.formatUnits(secondarySupplyBigInt, cropToken.decimals));
 
         const cropAPY = await getFarmingAPYs(secondaryField, userTokenPrices);
         cropAPYs.push({cropAPY, cropToken, secondaryField});

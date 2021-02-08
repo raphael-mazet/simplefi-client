@@ -6,18 +6,26 @@ import helpers from '../../helpers';
 export default function DetailsTable({txHistory, name}) {
   const styleHeaders = ['date', 'action', 'value', 'balance', 'balance-value'];
   const columnHeaders = ['Date', 'Action', 'Value', 'Hist. balance', 'Balance value'];
-  let balance = 0;
 
+  let balance = 0;
   function createCellValues(tempValues) {
     const cellValues = [...tempValues];
     let balMod = '';
 
     //set balance amount and modifier
     if (tempValues[3] === 'plus') {
-      balance += tempValues[2];
+      if (tempValues[4].userBalanceAfterTx !== undefined) {
+        balance = tempValues[4].userBalanceAfterTx;
+      } else {
+        balance += tempValues[2];
+      }
       balMod = `➚ ${Number(tempValues[2].toFixed()).toLocaleString()}`;
     } else if (tempValues[3] === 'minus') {
-      balance -= tempValues[2];
+      if (tempValues[4].userBalanceAfterTx !== undefined) {
+        balance = tempValues[4].userBalanceAfterTx;
+      } else {
+        balance -= tempValues[2];
+      }
       balMod = `➘ ${tempValues[2].toFixed()}`;
     } else {
       balMod = '↔';

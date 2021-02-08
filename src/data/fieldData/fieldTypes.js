@@ -1,4 +1,5 @@
 // @dev: used by Rewinder's getFieldSeedReserves
+//FIXME: simplify: protocol Curve/isEarning??
 const fieldInterfaceTypes = {
   curveSwap: [
     {
@@ -16,6 +17,10 @@ const fieldInterfaceTypes = {
     {
       name: "curve swap 3 (3Pool)",
       ciId: "44c9c6d0-2213-4172-9d14-98544e7af8bc"
+    },
+    {
+      name: "curve swap 3 (aave)",
+      ciId: "9831b4fb-ecbd-4a2b-a899-214338a4d635"
     }
   ],
   curveSNX: [
@@ -30,7 +35,7 @@ const fieldInterfaceTypes = {
     {
       name: "Curve: stEth reward gauge",
       ciId: "7e3cdf65-e20d-458b-a7c6-7776d960df48"
-    }
+    },
   ],
   uniswap: [
     {
@@ -38,6 +43,12 @@ const fieldInterfaceTypes = {
       ciId: "8718740f-6d08-4482-9a0c-c0cb2561f01c"
     }
   ],
+  aave: [
+    {
+      name: "aave v2 lp",
+      ciId: "2d47482b-4438-4023-abe1-2ca171d380b2"
+    }
+  ]
 }
 
 export default fieldInterfaceTypes;

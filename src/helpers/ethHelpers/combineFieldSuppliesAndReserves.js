@@ -1,9 +1,9 @@
 function combineFieldSuppliesAndReserves (supplies, reserves) {
   let combinedBalances = [...supplies];
 
-  for (let supply of combinedBalances) {
-    const findFieldReserves = reserves.filter(reserve => reserve.fieldName === supply.fieldName)[0];
-    supply.seedReserves = findFieldReserves.seedReserves;
+  for (let field of combinedBalances) {
+    const findFieldReserves = reserves.filter(reserve => reserve.fieldName === field.fieldName)[0];
+    field.seedReserves = findFieldReserves.seedReserves;
   }
 
   return combinedBalances;

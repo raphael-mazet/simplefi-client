@@ -15,6 +15,8 @@ function addFieldInvestmentValues(userFields, tokenPrices) {
     })
     
     if (field.userBalance) {
+      //TODO: optimise - this calc is unnecessary if there is only one seed token. In that case uUIV = userBalance * token price
+      //TODO: for multi-seed fields however, it should stay as is
       field.unstakedUserInvestmentValue = (field.userBalance / field.totalSupply) * totalFieldValue;
     } else {
       field.unstakedUserInvestmentValue = 0;
