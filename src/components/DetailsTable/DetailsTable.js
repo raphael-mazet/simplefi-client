@@ -63,7 +63,6 @@ export default function DetailsTable({txHistory, name}) {
       <div className="details-tx-table-rows">
         {txHistory.map((tx, txIndex) => {
           const tempCellValues = helpers.extractTempFieldDetailsCells(tx, balance);
-          console.log(' ---> tempCellValues', tempCellValues);
           // @dev: returns [date, action, amount, effect-on-balance, {pricePerToken, pricePerReceiptToken}]
           const cellValues = createCellValues(tempCellValues)
           return (

@@ -35,7 +35,7 @@ const fieldInterfaceTypes = {
     {
       name: "Curve: stEth reward gauge",
       ciId: "7e3cdf65-e20d-458b-a7c6-7776d960df48"
-    }
+    },
   ],
   uniswap: [
     {
