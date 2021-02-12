@@ -1,6 +1,7 @@
 import {
   getUniswapPoolVolume,
-  getUniswapBalanceHistory
+  getUniswapBalanceHistory,
+  getPairReserveUSDAtBlock
 } from './uniswapQueries/getUniswapGraphData';
 import uniswapQueries from './uniswapQueries/uniswapGraphQueryStrings';
 import {
@@ -18,6 +19,7 @@ import curveEPs from './curveQueries/curveRawStatsEPs'
 export {
   getUniswapPoolVolume,
   getUniswapBalanceHistory,
+  getPairReserveUSDAtBlock,
   uniswapQueries,
   getAaveReserveLiquidityRate,
   getAaveBalanceHistory,

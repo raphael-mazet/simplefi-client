@@ -38,8 +38,11 @@ async function getUserFarmingHistory(field, userTokenTransactions, userNormalTra
           break;
           
         case 'Uniswap':
+          console.log(' ---> field.name', field.name);
+          //FIXME: implement the pair uniswap query here!
+          const poolAddress = field.seedTokens[0].address;
           const txBlockNumber = tx.tx.blockNumber;
-          receiptTokenPriceAndDate = await getOneUniswapHistReceiptPrice(txBlockNumber, userAccount);
+          receiptTokenPriceAndDate = await getOneUniswapHistReceiptPrice(txBlockNumber, userAccount, poolAddress);
           break;
     
         default: 
