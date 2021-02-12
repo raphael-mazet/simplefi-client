@@ -8,10 +8,6 @@ async function getUniswapLiquidityHistory (field, userReceiptTokenTxs, userAccou
   const liquidityHistory = userReceiptTokenTxs.map(tx => {
     const txDate = new Date(Number(tx.timeStamp) * 1000);
     const targetSnapshot = fieldBalanceHistory.find(snapshot => tx.blockNumber === snapshot.block.toString());
-    // if (field.name === "Uni: MTA-wETH 50/50") {
-    //   console.log(' ---> targetSnapshot from uni', targetSnapshot);
-    //   console.log(' ---> tx (from Etherscan)', tx);
-    // }
     const {reserveUSD, liquidityTokenTotalSupply, reserve0, reserve1} = targetSnapshot;
     const pricePerToken = Number(reserveUSD) / Number(liquidityTokenTotalSupply);
     const histFieldReserves = {receiptTokenTotalSupply: Number(liquidityTokenTotalSupply), reserves: [Number(reserve0), Number(reserve1)]};
