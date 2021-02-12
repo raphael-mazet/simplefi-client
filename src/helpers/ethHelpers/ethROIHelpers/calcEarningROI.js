@@ -35,7 +35,7 @@ function calcEarningROI (currInvestmentValue, txHistory, field, tokenPrices) {
     totalRelativeROI = (realisedRelativeProfitValue + unrealisedRelativeProfitValue) / valueInvested;
   }
   
-  return {allTimeROI, absReturnValue, histInvestmentValue: valueInvested, relativeProfitValue: {realisedProfitValue: realisedRelativeProfitValue, unrealisedProfitValue: unrealisedRelativeProfitValue, totalRelativeROI}};
+  return {allTimeROI, absReturnValue, histInvestmentValue: valueInvested, relativeProfit: {realisedProfitValue: realisedRelativeProfitValue, unrealisedProfitValue: unrealisedRelativeProfitValue, totalRelativeROI}};
 
 
   function calcRealisedRelativeProfit (tx) {

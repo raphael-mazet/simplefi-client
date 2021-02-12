@@ -13,10 +13,13 @@ export default function EarningFieldDetails ({name, userFields, history}) {
   const [combinedROI, setCombinedROI] = useState({roi: 0, abs: 0});
   const [combinedFlag, setCombinedFlag] = useState(false);
   const [displayAbsROIValue, setDisplayAbsROIValue] = useState(false);
+  const [displayRelROIValue, setDisplayRelROIValue] = useState(false);
   const [displayHistInv, setDisplayHistInv] = useState(false);
   const [ROIValue, setROIValue] = useState({title: 'ROI', value: '0%'});
-  const [invValue, setInvValue] = useState({title: 'Current', value: '$0'})
+  const [invValue, setInvValue] = useState({title: 'Current', value: '$0'});
+  const [relROIValue, setRelROIValue] = useState({title: 'Something', value: '$0'});
   const roiRef = useRef(null);
+  const relRoiRef = useRef(null);
   const combinedGraph = useRef(null);
 
   function toggleCombinedROI(e) {
@@ -37,9 +40,21 @@ export default function EarningFieldDetails ({name, userFields, history}) {
 
   function toggleDisplay(e, target) {
     if (e.target.checked) {
-      target === 'roi' ? setDisplayAbsROIValue(true) : setDisplayHistInv(true);
+      if (target === 'roi') {
+        setDisplayAbsROIValue(true);
+      } else if (target === 'inv') {
+      setDisplayHistInv(true);
+      } else {
+        setDisplayRelROIValue(true);
+      }
     } else {
-      target === 'roi' ? setDisplayAbsROIValue(false) : setDisplayHistInv(false);
+      if (target === 'roi') {
+        setDisplayAbsROIValue(false);
+      } else if (target === 'inv') {
+      setDisplayHistInv(false);
+      } else {
+        setDisplayRelROIValue(false);
+      }
     }
   }
 
@@ -53,6 +68,11 @@ export default function EarningFieldDetails ({name, userFields, history}) {
       setFarmingFields(targetFarms);
       setCombinedFields({earningField: currentField, farmingFields: targetFarms});
       setCombinedROI(helpers.calcCombinedROI({earningField: currentField, farmingFields: targetFarms}));
+
+      //FIXME: clean-up
+      if (name === 'Uni: MTA-wETH 50/50') {
+        relRoiRef.current.style.display = 'flex';
+      }
     }
   }, [currentField]) //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -84,7 +104,21 @@ export default function EarningFieldDetails ({name, userFields, history}) {
       }
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [displayHistInv])
+  }, [displayHistInv]);
+
+  useEffect(() => {
+    if (name && name === 'Uni: MTA-wETH 50/50') {
+      if (displayRelROIValue) {
+        //TODO: avoid recalc on each useEffect
+        const totalRelROI = currentField.earningROI.relativeProfit.realisedProfitValue + currentField.earningROI.relativeProfit.unrealisedProfitValue;
+        const relDolSign = totalRelROI >= 0 ? '$' : '-$';
+        setRelROIValue({title: 'return value', value: relDolSign + Number(Math.abs(totalRelROI).toFixed()).toLocaleString()})
+      } else {
+        setRelROIValue({title: 'ROI', value: (currentField.earningROI.relativeProfit.totalRelativeROI * 100).toFixed(2) + '%'})
+      }
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayRelROIValue]);
 
   if (!name) {
     history.push('/dashboard');
@@ -111,6 +145,12 @@ export default function EarningFieldDetails ({name, userFields, history}) {
           <h2 className="field-overview-header">Total <br/> {ROIValue.title}</h2>
           <p ref={roiRef} className="field-overview-value">{ROIValue.value}</p>
           <MiniToggle before='%' after='$' handleChange={e => toggleDisplay(e, 'roi')} />
+        </div>
+
+        <div className="field-overview field-relative-roi" ref={relRoiRef}>
+          <h2 className="field-overview-header">Relative <br/> {relROIValue.title}</h2>
+          <p className="field-overview-value">{relROIValue.value}</p>
+          <MiniToggle before='%' after='$' handleChange={e => toggleDisplay(e, 'relROI')} />
         </div>
 
         <div className="field-overview field-invested">
