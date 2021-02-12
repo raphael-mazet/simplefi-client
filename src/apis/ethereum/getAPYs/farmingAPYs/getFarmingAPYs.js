@@ -21,6 +21,7 @@ async function getFarmingAPYs (field, userTokenPrices) {
     
     case "synthetix susd farm":
     case "mstable farm":
+    case "1inch governance rewards":
         //CHECK: rename function if used for more than one field?
         APY = await getSnxFarmingAPY(rewardRateAddress, field, userTokenPrices);
         break;

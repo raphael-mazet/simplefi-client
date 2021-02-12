@@ -18,7 +18,6 @@ async function getUserFarmingHistory(field, userTokenTransactions, userNormalTra
 
   //@dev: farmingTxs = [{tx, receiptToken, [cropToken,] [priceApi,] [reward | staking | unstaking]Amount}]
   const farmingTxs = helpers.sortFarmingTxs(field, userTokenTransactions, userNormalTransactions);
-
   for (let tx of farmingTxs) {
 
     // add hist. price of the reward claim tx

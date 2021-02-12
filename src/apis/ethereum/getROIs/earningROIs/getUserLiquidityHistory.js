@@ -32,15 +32,15 @@ async function getUserLiquidityHistory(trackedFields, field, receiptToken, userR
       /* @dev: this function contains a array.map of multiple calls to coinGecko,
                hence the use of a promise.all in the parent func (getROIs)
       */
-      liquidityHistory = await getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs, userAccount, whitelist)
+      liquidityHistory = await getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs, userAccount, whitelist);
       break;
       
     case "Uniswap":
-      liquidityHistory = await getUniswapLiquidityHistory(field, userReceiptTokenTxs, userAccount, whitelist)
+      liquidityHistory = await getUniswapLiquidityHistory(field, userReceiptTokenTxs, userAccount, whitelist);
       break;
 
     case "Aave":
-      liquidityHistory = await getAaveLiquidityHistory(receiptToken, userReceiptTokenTxs, userAccount, whitelist)
+      liquidityHistory = await getAaveLiquidityHistory(receiptToken, userReceiptTokenTxs, userAccount, whitelist);
       break;
 
     default:

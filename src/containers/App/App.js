@@ -81,7 +81,9 @@ function App() {
   //Get all user token transactions
   useEffect(() => {
     if (userAccount.length && balanceContractsLoaded && !changedAddress) {
+      
       setLoadingMessage(() => helpers.amendModal('balances'));
+      
       const getTokenBalances = apis.getAllUserBalances(userAccount[0], trackedTokens);
       const getFieldBalances = apis.getAllUserBalances(userAccount[0], trackedFields);
       const userTxPromise = apis.getUserTransactions(userAccount[0]);
@@ -89,17 +91,22 @@ function App() {
 
       Promise.all([getTokenBalances, getFieldBalances, userTxPromise, unclaimedRewardsPromise])
         .then(([tokensWithBalance, fieldsWithBalance, userTxData, unclaimedArr]) => {
+          
           fieldsWithBalance = helpers.populateFieldTokensFromCache(fieldsWithBalance, trackedTokens);
+          
           setLoadingMessage(prev => helpers.amendModal('Fetching primary token and field balances', prev));
           setLoadingMessage(prev => helpers.amendModal('Fetching historic token transactions', prev));
           setLoadingMessage(prev => helpers.amendModal('Fetching unclaimed rewards', prev));
+          
           setTimeout(() => {
             setUserTokens(tokensWithBalance);
             setUserFields(fieldsWithBalance);
             setUserTokenTransactions(userTxData.userTokenTransactions.result);
             setUserNormalTransactions(userTxData.userNormalTransactions.result);
             setUnclaimedRewards(unclaimedArr);
+            
             if (!fieldsWithBalance.length) setRewoundFlag(true);
+
           }, 200)
         })
         .catch(e => {
@@ -113,17 +120,21 @@ function App() {
   // Add all underlying token and field balances
   useEffect(() => {
     if (userFields.length && userTokens.length && !rewoundFlag && !changedAddress) {
+     
       setLoadingMessage(() => helpers.amendModal('rewinding'));
+     
       apis.rewinder(userFields, trackedTokens, trackedFields)
       .then(rewound => {
-          setLoadingMessage(prev => helpers.amendModal('Rewinding underlying farming investments', prev));
-          setLoadingMessage(prev => helpers.amendModal('Rewinding underlying tokens', prev));
-          setTimeout(() => {
-            setRewoundTokenBalances (rewound.userTokenBalances);
-            setRewoundFieldBalances (rewound.userFeederFieldBalances);
-            setFieldSuppliesAndReserves(rewound.fieldBalances);
-            setRewoundFlag(true);
-          }, 200)
+          
+        setLoadingMessage(prev => helpers.amendModal('Rewinding underlying farming investments', prev));
+        setLoadingMessage(prev => helpers.amendModal('Rewinding underlying tokens', prev));
+        
+        setTimeout(() => {
+          setRewoundTokenBalances (rewound.userTokenBalances);
+          setRewoundFieldBalances (rewound.userFeederFieldBalances);
+          setFieldSuppliesAndReserves(rewound.fieldBalances);
+          setRewoundFlag(true);
+        }, 200)
         })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps  
@@ -131,28 +142,34 @@ function App() {
 
   useEffect(() => {
     if (rewoundFlag && !changedAddress) {
+      
       setLoadingMessage(() => helpers.amendModal('ROIs'));
+      
       const tokensWithLockedBalances = helpers.addLockedTokenBalances(rewoundTokenBalances, userTokens);
       const tokensWithUnclaimedBalances = helpers.addUnclaimedBalances(unclaimedRewards, tokensWithLockedBalances, trackedTokens);
       setUserTokens(tokensWithUnclaimedBalances);
 
       const fieldsWithStakedBalances = helpers.addStakedFieldBalances(rewoundFieldBalances, userFields);
       const fieldsWithSuppliesAndReserves = helpers.addFieldSuppliesAndReserves(fieldSuppliesAndReserves, fieldsWithStakedBalances);
+      
       apis.getTokenPrices(tokensWithUnclaimedBalances, fieldsWithSuppliesAndReserves, trackedTokens)
         .then(tokenPrices => {
           setLoadingMessage(prev => helpers.amendModal('Fetching token and field prices', prev));
           setUserTokenPrices(tokenPrices);
+          
           const fieldsWithInvestmentValues = helpers.addFieldInvestmentValues(fieldsWithSuppliesAndReserves, tokenPrices)
+          
           apis.getAPYs(fieldsWithInvestmentValues, tokensWithUnclaimedBalances, tokenPrices)
           .then(fieldsWithAPYs => {
-              setLoadingMessage(prev => helpers.amendModal('Calculating APYs', prev));
-              apis.getROIs(userAccount[0], fieldsWithAPYs, trackedFields, userTokenTransactions, userNormalTransactions, trackedTokens, tokensWithUnclaimedBalances, tokenPrices)
+            setLoadingMessage(prev => helpers.amendModal('Calculating APYs', prev));            
+            
+            apis.getROIs(userAccount[0], fieldsWithAPYs, trackedFields, userTokenTransactions, userNormalTransactions, trackedTokens, tokensWithUnclaimedBalances, tokenPrices)
               .then(fieldsWithROIs => {
-                  setLoadingMessage(prev => helpers.amendModal('Calculating ROIs', prev));
-                  setUserFields(fieldsWithROIs);
-                  setAllLoadedFlag(true);
-                  setTimeout(() => setLoadingMessage(() => {return {headline: null, actions: []}}), 300);
-                })
+                setLoadingMessage(prev => helpers.amendModal('Calculating ROIs', prev));    
+                setUserFields(fieldsWithROIs);
+                setAllLoadedFlag(true);
+                setTimeout(() => setLoadingMessage(() => {return {headline: null, actions: []}}), 300);
+              })
             })
         })
     }

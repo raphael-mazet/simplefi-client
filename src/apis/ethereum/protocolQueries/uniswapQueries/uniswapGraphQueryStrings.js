@@ -30,6 +30,8 @@ gql`
       liquidityTokenBalance
       liquidityTokenTotalSupply
       reserveUSD
+      reserve0
+      reserve1
     }
   }
 `

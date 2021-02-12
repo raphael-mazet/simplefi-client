@@ -37,7 +37,8 @@ async function getROIs(userAccount, userFields, trackedFields, userTokenTransact
         field.investmentValue = currInvestmentValue;
         field.userTxHistory = userLiquidityHistory;
         //@dev: {allTimeROI, absReturnValue, histInvestmentValue}
-        field.earningROI = helpers.calcEarningROI(currInvestmentValue, userLiquidityHistory);
+        //NOTE: adding field is only relevant for Uniswap at the moment
+        field.earningROI = helpers.calcEarningROI(currInvestmentValue, userLiquidityHistory, field, tokenPrices);
       }
     }
 

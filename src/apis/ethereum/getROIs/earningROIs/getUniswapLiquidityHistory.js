@@ -5,13 +5,19 @@ async function getUniswapLiquidityHistory (field, userReceiptTokenTxs, userAccou
 
   const rawData = await getUniswapBalanceHistory(userAccount);
   const fieldBalanceHistory = rawData.data.liquidityPositionSnapshots.filter(snapshot => snapshot.pair.id === field.contractAddresses[0].address.toLowerCase());
-
   const liquidityHistory = userReceiptTokenTxs.map(tx => {
     const txDate = new Date(Number(tx.timeStamp) * 1000);
     const targetSnapshot = fieldBalanceHistory.find(snapshot => tx.blockNumber === snapshot.block.toString());
-    const pricePerToken = Number(targetSnapshot.reserveUSD) / Number(targetSnapshot.liquidityTokenTotalSupply);
+    // if (field.name === "Uni: MTA-wETH 50/50") {
+    //   console.log(' ---> targetSnapshot from uni', targetSnapshot);
+    //   console.log(' ---> tx (from Etherscan)', tx);
+    // }
+    const {reserveUSD, liquidityTokenTotalSupply, reserve0, reserve1} = targetSnapshot;
+    const pricePerToken = Number(reserveUSD) / Number(liquidityTokenTotalSupply);
+    const histFieldReserves = {receiptTokenTotalSupply: Number(liquidityTokenTotalSupply), reserves: [Number(reserve0), Number(reserve1)]};
     const {txIn, txOut, staked, unstaked} = helpers.sortLiquidityTxs(tx, userAccount, whitelist);
-    return {tx, txDate, pricePerToken, txIn, txOut, staked, unstaked}
+    //NOTE: adding field and histFieldReserves currently only valid for Uniswap
+    return {tx, txDate, pricePerToken, txIn, txOut, staked, unstaked, histFieldReserves}
   })
 
   return liquidityHistory;
