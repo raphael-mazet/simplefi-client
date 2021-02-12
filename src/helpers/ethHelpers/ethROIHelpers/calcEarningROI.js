@@ -82,7 +82,9 @@ function calcEarningROI (currInvestmentValue, txHistory, field, tokenPrices) {
   }
 
   function calcUnrealisedRelativeProfit() {
-    const totalCurrentUserBalance = field.userBalance + field.stakedBalance.reduce((acc, curr) => acc + curr.balance, 0);
+    const currUnstakedUserBalance = field.userBalance ? field.userBalance : 0;
+    const currStakedUserBalance = field.stakedBalance.length ? field.stakedBalance.reduce((acc, curr) => acc + curr.balance, 0) : 0;
+    const totalCurrentUserBalance = currUnstakedUserBalance + currStakedUserBalance;
     const userPoolPercentage = totalCurrentUserBalance / field.totalSupply;
     const userFieldSeedHoldings = field.seedTokens.map(seedToken => seedToken.fieldReserve * userPoolPercentage);
     const unrealisedProfitAmounts = userFieldSeedHoldings.map((userHolding, i) => userHolding - seedTokensInvested[i]);
