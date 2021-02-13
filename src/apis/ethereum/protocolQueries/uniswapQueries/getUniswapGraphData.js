@@ -9,6 +9,7 @@ async function getUniswapPoolVolume(pairAddress, first) {
     })
 }
 
+//CHECK: does Apollo already have a native cache?
 const uniswapBalanceCache = {};
 async function getUniswapBalanceHistory(userAccount) {
   if (uniswapBalanceCache[userAccount]) {
@@ -23,7 +24,19 @@ async function getUniswapBalanceHistory(userAccount) {
   }
 }
 
+async function getPairReserveUSDAtBlock(block, pairId) {
+  return await apollo.uniswapClient.query(
+    {
+      query: uniswapQueries.getPairReserveUSDAtBlock,
+      variables: { block, pairId }
+    })
+}
+
+
+
+
 export {
   getUniswapPoolVolume,
-  getUniswapBalanceHistory
+  getUniswapBalanceHistory,
+  getPairReserveUSDAtBlock
 }

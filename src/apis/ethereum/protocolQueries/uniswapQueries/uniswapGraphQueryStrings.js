@@ -36,8 +36,23 @@ gql`
   }
 `
 
+const getPairReserveUSDAtBlock =
+gql`
+  query getPairReserveUSDAtBlock ($block: Int! $pairId: String!) {
+    pair (
+      id: $pairId
+      block: {
+        number: $block
+      }
+    ) {
+      reserveUSD
+    }
+  }
+`
+
 //eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getUniswapPoolVolume,
-  getUniswapBalanceHistory
+  getUniswapBalanceHistory,
+  getPairReserveUSDAtBlock
 }
