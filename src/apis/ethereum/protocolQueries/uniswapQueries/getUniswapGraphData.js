@@ -9,7 +9,7 @@ async function getUniswapPoolVolume(pairAddress, first) {
     })
 }
 
-//CHECK: does Apollo already have a native cache?
+//FIXME: redundant cache - Apollo already has one natively
 const uniswapBalanceCache = {};
 async function getUniswapBalanceHistory(userAccount) {
   if (uniswapBalanceCache[userAccount]) {

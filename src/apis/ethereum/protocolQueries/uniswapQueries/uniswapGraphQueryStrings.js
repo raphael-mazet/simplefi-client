@@ -46,6 +46,7 @@ gql`
       }
     ) {
       reserveUSD
+      totalSupply
     }
   }
 `

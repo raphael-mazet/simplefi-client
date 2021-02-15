@@ -69,7 +69,7 @@ export default function EarningFieldDetails ({name, userFields, history}) {
       setCombinedFields({earningField: currentField, farmingFields: targetFarms});
       setCombinedROI(helpers.calcCombinedROI({earningField: currentField, farmingFields: targetFarms}));
 
-      //FIXME: clean-up
+      //FIXME: remove this hard-coded restriction
       if (name === 'Uni: MTA-wETH 50/50') {
         relRoiRef.current.style.display = 'flex';
       }
