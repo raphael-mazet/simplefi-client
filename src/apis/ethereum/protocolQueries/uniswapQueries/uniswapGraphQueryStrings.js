@@ -30,6 +30,23 @@ gql`
       liquidityTokenBalance
       liquidityTokenTotalSupply
       reserveUSD
+      reserve0
+      reserve1
+    }
+  }
+`
+
+const getPairReserveUSDAtBlock =
+gql`
+  query getPairReserveUSDAtBlock ($block: Int! $pairId: String!) {
+    pair (
+      id: $pairId
+      block: {
+        number: $block
+      }
+    ) {
+      reserveUSD
+      totalSupply
     }
   }
 `
@@ -37,5 +54,6 @@ gql`
 //eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getUniswapPoolVolume,
-  getUniswapBalanceHistory
+  getUniswapBalanceHistory,
+  getPairReserveUSDAtBlock
 }

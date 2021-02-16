@@ -23,8 +23,8 @@ async function rewinder (userFields, trackedTokens, trackedFields) {
     //NOTE: This returns correctly for Aave but is unnecessary as the user's underlying balance is the same as it's field balance
     const totalMainFieldSupply = await getTotalFieldSupply(mainField.name, contract, decimals, totalFieldSupplyCache);
     const userShareOfMainField = mainField.userBalance / totalMainFieldSupply;
+    
     //@dev: will extract the balance of underlying seed tokens owned by the user
-    //NOTE: only one seed token for Aave - IS IT ALWAYS BASE? CAN ASSUME FOR NOW?
     for (const token of mainField.seedTokens) {
       await tokenBalanceExtractor(token, mainField, userShareOfMainField)
     }
@@ -71,7 +71,6 @@ async function rewinder (userFields, trackedTokens, trackedFields) {
     
     // get subfield path
     if (via) balanceObj.via = via;
-    
     userTokenBalances.push(balanceObj);
     
     //CHECK here what happens when the Aave Curve pool recurses

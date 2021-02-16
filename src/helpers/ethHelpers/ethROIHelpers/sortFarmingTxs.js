@@ -48,7 +48,9 @@ function sortFarmingTxs(field, userTokenTransactions, userNormalTransactions) {
         return acc;
       }
 
+    //identify (un)staking tx
     } else if (tx.contractAddress === receiptToken.address.toLowerCase()) {
+
         //identify staking tx
         //@dev: assumes the correct deposit method was used
         if (tx.to === rewardDepositContract.address.toLowerCase()) {

@@ -18,40 +18,40 @@ async function getUserFarmingHistory(field, userTokenTransactions, userNormalTra
 
   //@dev: farmingTxs = [{tx, receiptToken, [cropToken,] [priceApi,] [reward | staking | unstaking]Amount}]
   const farmingTxs = helpers.sortFarmingTxs(field, userTokenTransactions, userNormalTransactions);
-
+  
   for (let tx of farmingTxs) {
+    /* add historical prices of (un)staking transactions based on field issuing the receipt token used as this farming field's seed
+       and price of the receipt token in case of a rewards claim for use in the Farming Field Details page
+    */
+    let receiptTokenPriceAndDate;
+    switch (field.seedTokens[0].protocol.name) {
+      case 'Curve':
+        const {receiptToken} = tx;
+        const txTimestamp = tx.tx.timeStamp;
+        receiptTokenPriceAndDate = await getOneCurveHistReceiptPrice(receiptToken, txTimestamp, trackedFields);
+        break;
+          
+      case 'Uniswap':
+        const poolAddress = field.seedTokens[0].address;
+        const txBlockNumber = tx.tx.blockNumber;
+        receiptTokenPriceAndDate = await getOneUniswapHistReceiptPrice(txBlockNumber, userAccount, poolAddress);
+        break;
+  
+      default: 
+    }
 
-    // add hist. price of the reward claim tx
+    /* add hist. price of the crop token in case the tx is a reward claim (would also satisfy a "if(tx.rewardAmount)"
+       condition), and differentiate from receipt token price for proper calc of historical balances in fieldDetails page
+    */
     if (tx.cropToken) {
       const histTokenPrice = await getHistoricalPrice (tx.priceApi, tx.tx.timeStamp);
       tx.txDate = new Date(Number(tx.tx.timeStamp) * 1000);
       tx.pricePerToken = histTokenPrice;
+      tx.pricePerReceiptToken = receiptTokenPriceAndDate.pricePerToken;
+    } else {
+      tx.pricePerToken = receiptTokenPriceAndDate.pricePerToken;
+      tx.txDate = receiptTokenPriceAndDate.txDate;
     }
-      /* add historical prices of (un)staking transactions based on field issuing the receipt token used as this farming field's seed
-         and price of the receipt token in case of a rewards claim for use in the Farming Field Details page
-      */
-      let receiptTokenPriceAndDate;
-      switch (field.seedTokens[0].protocol.name) {
-        case 'Curve':
-          const {receiptToken} = tx;
-          const txTimestamp = tx.tx.timeStamp;
-          receiptTokenPriceAndDate = await getOneCurveHistReceiptPrice(receiptToken, txTimestamp, trackedFields);
-          break;
-          
-        case 'Uniswap':
-          const txBlockNumber = tx.tx.blockNumber;
-          receiptTokenPriceAndDate = await getOneUniswapHistReceiptPrice(txBlockNumber, userAccount);
-          break;
-    
-        default: 
-      }
-
-      if (tx.cropToken) {
-        tx.pricePerReceiptToken = receiptTokenPriceAndDate.pricePerToken;
-      } else {
-        tx.pricePerToken = receiptTokenPriceAndDate.pricePerToken;
-        tx.txDate = receiptTokenPriceAndDate.txDate;
-      }
 
   }
 
