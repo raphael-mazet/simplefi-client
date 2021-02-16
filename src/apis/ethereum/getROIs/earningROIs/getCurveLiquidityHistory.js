@@ -14,6 +14,16 @@ async function getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs
   const timeFormatter = new Intl.DateTimeFormat('en-GB');
   const historicalCurveStats = await getOneCurvePoolRawData(field.name);
 
+    /* @dev: this await initialises the getHistoricalPrice cache and ensures only one
+             call is made to Coingecko for each seed. It assumes that Etherscan always
+             returns userReceiptTokenTxs ordered by ascending date (earliest at index [0])
+    */
+   if (userReceiptTokenTxs.length) {
+     for (let seed of field.seedTokens) {
+      await getHistoricalPrice(seed.priceApi, userReceiptTokenTxs[0].timeStamp)
+     }
+   }
+
   const liquidityHistory = userReceiptTokenTxs.map(async tx => {
     const txDate = new Date(Number(tx.timeStamp) * 1000);
     //@dev: simplify date to just day/month/year (no time) to find corresponding day in curve snapshot data
@@ -26,7 +36,8 @@ async function getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs
       const histSeedValue = await getHistoricalPrice(seed.priceApi, tx.timeStamp)
 
       // Manage edge case where the seed token is Eth, and therefore has no tokenContract to pull decimals from
-      //TODO: pull decimals directly from seedToken rather than from its token contract - check createBalanceContracts and populateFromCache
+      //TODO: pull decimals directly from seedToken rather than from its token contract - check createBalanceContracts and populateFromCache;
+      console.log(' ---> seed', seed);
       let seedDecimalDivisor = 1e18;
       if (seed.tokenContract) {
         seedDecimalDivisor = Number(`1e${seed.tokenContract.decimals}`);

@@ -19,11 +19,13 @@ function getHistoricalPriceFromFirstTx (tokenApi, firstTxTimestamp) {
   
   let cachedStartDate;
   if (dayRangePriceCache[tokenApi]) {
-    cachedStartDate = dayRangePriceCache[tokenApi][0][0];    
+    cachedStartDate = dayRangePriceCache[tokenApi][0][0];
+    console.log(' ---> dayRangePriceCache', dayRangePriceCache);
   }
 
   if (!cachedStartDate || startDate < cachedStartDate) {
     const daysAgo = Math.ceil((Date.now() - startDate) / 86400000);
+    console.log(' ---> fetched!');
     return fetchRequest(baseUrl + priceEP + tokenApi + historyDaysString + daysAgo + '&interval=daily')
       .then(histData => {
         const tokenPriceHist = histData.prices;
@@ -31,6 +33,7 @@ function getHistoricalPriceFromFirstTx (tokenApi, firstTxTimestamp) {
         return dayRangePriceCache[tokenApi];
       })
   } else {
+    console.log(' ---> sent from cache!');
     return dayRangePriceCache[tokenApi];
   }
 }
