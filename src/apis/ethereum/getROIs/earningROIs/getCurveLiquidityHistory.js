@@ -33,15 +33,12 @@ async function getCurveLiquidityHistory(field, receiptToken, userReceiptTokenTxs
     let fieldHistReserveValue = 0;
 
     for (let seed of field.seedTokens) {
+      console.log(' ---> tx', tx);
+      console.log(' ---> seed.name', seed.name);
       const histSeedValue = await getHistoricalPrice(seed.priceApi, tx.timeStamp)
-
-      // Manage edge case where the seed token is Eth, and therefore has no tokenContract to pull decimals from
-      //TODO: pull decimals directly from seedToken rather than from its token contract - check createBalanceContracts and populateFromCache;
-      console.log(' ---> seed', seed);
-      let seedDecimalDivisor = 1e18;
-      if (seed.tokenContract) {
-        seedDecimalDivisor = Number(`1e${seed.tokenContract.decimals}`);
-      }
+      console.log(' ---> histSeedValue', histSeedValue);
+      const seedDecimalDivisor = Number(`1e${seed.decimals}`);
+      console.log(' ---> seedDecimalDivisor', seedDecimalDivisor);
       const decimaledReserve = historicalStat.balances[seed.seedIndex]/seedDecimalDivisor;
       fieldHistReserveValue += histSeedValue * decimaledReserve;
     }
