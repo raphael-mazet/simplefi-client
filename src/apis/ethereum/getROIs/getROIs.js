@@ -27,10 +27,7 @@ async function getROIs(userAccount, userFields, trackedFields, userTokenTransact
 
     if (field.isEarning) {
 
-      //TODO: push these 2 lines to the getUserLiquidityHistory function for consistency & readbility
-      const receiptToken = trackedTokens.find(trackedToken => trackedToken.tokenId === field.receiptToken);
-      const userReceiptTokenTxs = userTokenTransactions.filter(tx => tx.contractAddress === receiptToken.address.toLowerCase());
-      const userLiquidityHistoryPromises = await getUserLiquidityHistory(trackedFields, field, receiptToken, userReceiptTokenTxs, userAccount);
+      const userLiquidityHistoryPromises = await getUserLiquidityHistory(trackedFields, field, trackedTokens, userTokenTransactions, userAccount);
       if (userLiquidityHistoryPromises) {
         const userLiquidityHistory = await Promise.all(userLiquidityHistoryPromises);
         //TODO: rename variable to totalCurrInvValue

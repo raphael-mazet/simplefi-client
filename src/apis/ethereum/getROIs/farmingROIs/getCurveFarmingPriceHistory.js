@@ -25,12 +25,7 @@ async function getOneCurveHistReceiptPrice(token, timestamp, trackedFields) {
   for (let seed of targetEarnField.seedTokens) {
     const histSeedValue = await getHistoricalPrice(seed.priceApi, timestamp);
     //CHECK: handle error in case no seed index (some seeds only added later to contract and are not present in old raw stats)
-    // Manage edge case where the seed token is Eth, and therefore has no tokenContract to pull decimals from
-    //TODO: pull decimals directly from seedToken rather than from its token contract - check createBalanceContracts and populateFromCache
-    let seedDecimalDivisor = 1e18;
-    if (seed.tokenContract) {
-      seedDecimalDivisor = Number(`1e${seed.tokenContract.decimals}`);
-    }
+    const seedDecimalDivisor = Number(`1e${seed.decimals}`);
     const decimaledReserve = historicalStat.balances[seed.seedIndex]/seedDecimalDivisor;
     fieldHistReserveValue += histSeedValue * decimaledReserve;
   }
@@ -38,6 +33,7 @@ async function getOneCurveHistReceiptPrice(token, timestamp, trackedFields) {
   const pricePerToken = fieldHistReserveValue / (historicalStat.supply / Number(`1e${token.tokenContract.decimals}`));
   return {pricePerToken, txDate};
 }
+
 
 //NOTE: this function is not currently in use
 async function getCurveHistReceiptPrices (field, receiptToken, userReceiptTokenTxs) {

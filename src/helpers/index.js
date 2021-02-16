@@ -17,6 +17,8 @@ import {
   sortLiquidityTxs,
   sortFarmingTxs,
   createWhitelist,
+  filterRelatedFarmReceiptTokenTxs,
+  sortReceiptAndRelatedTxs,
   calcEarningROI,
   calcFarmingROI
 } from './ethHelpers';
@@ -49,6 +51,8 @@ export default {
   sortLiquidityTxs,
   sortFarmingTxs,
   createWhitelist,
+  filterRelatedFarmReceiptTokenTxs,
+  sortReceiptAndRelatedTxs,
   calcEarningROI,
   calcFarmingROI,
   extractTempFieldDetailsCells,

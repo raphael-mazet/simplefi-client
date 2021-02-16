@@ -4,6 +4,8 @@ import {
   sortLiquidityTxs,
   sortFarmingTxs,
   createWhitelist,
+  filterRelatedFarmReceiptTokenTxs,
+  sortReceiptAndRelatedTxs,
   calcEarningROI,
   calcFarmingROI,
 } from './ethROIHelpers';
@@ -16,6 +18,8 @@ export {
   sortLiquidityTxs,
   sortFarmingTxs,
   createWhitelist,
+  filterRelatedFarmReceiptTokenTxs,
+  sortReceiptAndRelatedTxs,
   calcEarningROI,
   calcFarmingROI,
   findUnclaimedBalanceType
