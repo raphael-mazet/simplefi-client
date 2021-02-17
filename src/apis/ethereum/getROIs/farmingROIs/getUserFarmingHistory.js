@@ -24,9 +24,8 @@ async function getUserFarmingHistory(field, userTokenTransactions, userNormalTra
   
   
   /* add historical prices of (un)staking transactions based on field issuing the receipt token used as this farming field's seed
-     and price of the receipt token in case of a rewards claim for use in the Farming Field Details page
+     and price of the token in case of a rewards claim for use in the Farming Field Details page
   */
-  //FIXME: change reference to receipt token in comment above
   //TODO: initialise coingecko calls
   for (let tx of farmingTxs) {
     
