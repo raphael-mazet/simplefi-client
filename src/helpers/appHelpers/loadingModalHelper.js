@@ -1,8 +1,19 @@
 export default function amendModal(message, loadingMessage) {
+  
   let headline;
   let actions;
+  
   switch (message) {
 
+    case 'prepping':
+      headline = 'Preparing application';
+      actions = [
+        'Loading tracked tokens',
+        'Loading tracked fields',
+        'Creating contract interfaces'
+      ]
+      break;
+    
     case 'balances':
       headline = 'Loading balances';
       actions = [
