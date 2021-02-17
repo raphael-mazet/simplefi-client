@@ -50,13 +50,20 @@ function App() {
       alert('Please install MetaMask to use SimpleFi (https://metamask.io/)');
     }
 
+    setLoadingMessage(() => helpers.amendModal('prepping'));
     const getTokens = apis.getTokens();
     const getFields = apis.getFields();
     Promise.all([getTokens, getFields])
       .then(([tokens, fields]) => {
-        setTrackedTokens(apis.createBalanceContracts(tokens));
-        setTrackedFields(apis.createBalanceContracts(fields));
-        setBalanceContractsLoaded(true);
+        setLoadingMessage(prev => helpers.amendModal('Loading tracked tokens', prev));
+        setLoadingMessage(prev => helpers.amendModal('Loading tracked fields', prev));
+        setLoadingMessage(prev => helpers.amendModal('Creating contract interfaces', prev));
+        
+        setTimeout(() => {
+          setTrackedTokens(apis.createBalanceContracts(tokens));
+          setTrackedFields(apis.createBalanceContracts(fields));
+          setBalanceContractsLoaded(true);
+        }, 200)
     })
   //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

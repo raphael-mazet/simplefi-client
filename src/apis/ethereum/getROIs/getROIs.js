@@ -11,6 +11,7 @@ import helpers from '../../../helpers';
  * @param {Array} trackedTokens all tracked tokens
  * @return {Array} userFields with added ROI, user transaction history and current value of investment
  */
+//TODO: refactor tx sorters to show when (un)staking and txIn/Out are made in the same tx
 async function getROIs(userAccount, userFields, trackedFields, userTokenTransactions, userNormalTransactions, trackedTokens, userTokens, tokenPrices) {
 
   const fieldsWithROI = [...userFields];

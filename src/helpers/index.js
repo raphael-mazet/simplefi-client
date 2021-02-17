@@ -32,6 +32,7 @@ import {
   chartCallbacks
 } from './detailsChartHelpers';
 import calcCombinedROI from './earningFieldDetailsHelpers';
+import findUnderlyingFarmingTokens from './farmingFieldDetailsHelpers';
 
 //eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -62,5 +63,6 @@ export default {
   extractDetailsPieChartValues,
   extractDetailsBarChartValues,
   chartCallbacks,
-  calcCombinedROI
+  calcCombinedROI,
+  findUnderlyingFarmingTokens
 }
