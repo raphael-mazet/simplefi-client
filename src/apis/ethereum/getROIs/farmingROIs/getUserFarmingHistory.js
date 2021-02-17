@@ -21,15 +21,21 @@ async function getUserFarmingHistory(field, userTokenTransactions, userNormalTra
 
   //@dev: farmingTxs = [{tx, receiptToken, [cropToken,] [priceApi,] [reward | staking | unstaking]Amount}]
   const farmingTxs = helpers.sortFarmingTxs(field, userTokenTransactions, userNormalTransactions, trackedTokens, userAccount);
+  
+  
+  /* add historical prices of (un)staking transactions based on field issuing the receipt token used as this farming field's seed
+     and price of the receipt token in case of a rewards claim for use in the Farming Field Details page
+  */
+  //FIXME: change reference to receipt token in comment above
+  //TODO: initialise coingecko calls
   for (let tx of farmingTxs) {
-    /* add historical prices of (un)staking transactions based on field issuing the receipt token used as this farming field's seed
-       and price of the receipt token in case of a rewards claim for use in the Farming Field Details page
-    */
+    
     let seedReceiptTokenPriceAndDate;
+    const { seedReceiptToken } = tx;
+    const txTimestamp = tx.tx.timeStamp;
+
     switch (field.seedTokens[0].protocol.name) {
       case 'Curve':
-        const {seedReceiptToken} = tx;
-        const txTimestamp = tx.tx.timeStamp;
         seedReceiptTokenPriceAndDate = await getOneCurveHistReceiptPrice(seedReceiptToken, txTimestamp, trackedFields);
         break;
           
@@ -39,7 +45,11 @@ async function getUserFarmingHistory(field, userTokenTransactions, userNormalTra
         seedReceiptTokenPriceAndDate = await getOneUniswapHistReceiptPrice(txBlockNumber, userAccount, poolAddress);
         break;
   
+      // default is for cases when the farm seed token is a simple base token (e.g. 1inch)
       default: 
+        const pricePerToken = await getHistoricalPrice(seedReceiptToken.priceApi, txTimestamp);
+        const txDate = new Date(Number(txTimestamp) * 1000);
+        seedReceiptTokenPriceAndDate = {pricePerToken, txDate}
     }
 
     /* add hist. price of the crop token in case the tx is a reward claim (would also satisfy a "if(tx.rewardAmount)"
