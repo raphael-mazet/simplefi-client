@@ -32,14 +32,14 @@ export default function DetailsTable({txHistory, name}) {
     }
     cellValues[3] = Number(balance.toFixed(2)).toLocaleString() + ` (${balMod})`;
 
-    // @dev: pricePerReceiptToken is only used when there is a reward claim (txValue based on ppt, balance value based on pprt)
-    const {pricePerToken, pricePerReceiptToken} = cellValues[4];
+    // @dev: pricePerSeedReceiptToken is only used when there is a reward claim (txValue based on ppt, balance value based on pprt)
+    const {pricePerToken, pricePerSeedReceiptToken} = cellValues[4];
     
     cellValues[2] = Number((cellValues[2] * pricePerToken).toFixed(2)).toLocaleString(); //tx value
     
     //set hist. balance value
-    if (pricePerReceiptToken) {
-      cellValues[4] = Number((pricePerReceiptToken * balance).toFixed(2)).toLocaleString(); 
+    if (pricePerSeedReceiptToken) {
+      cellValues[4] = Number((pricePerSeedReceiptToken * balance).toFixed(2)).toLocaleString(); 
     } else {
       cellValues[4] = Number((pricePerToken * balance).toFixed(2)).toLocaleString();
     }
@@ -63,7 +63,7 @@ export default function DetailsTable({txHistory, name}) {
       <div className="details-tx-table-rows">
         {txHistory.map((tx, txIndex) => {
           const tempCellValues = helpers.extractTempFieldDetailsCells(tx, balance);
-          // @dev: returns [date, action, amount, effect-on-balance, {pricePerToken, pricePerReceiptToken}]
+          // @dev: returns [date, action, amount, effect-on-balance, {pricePerToken, pricePerSeedReceiptToken}]
           const cellValues = createCellValues(tempCellValues)
           return (
             <div key={`${name}-${tx.tokenSymbol}-${txIndex}`} className="tx-table-single-row">
