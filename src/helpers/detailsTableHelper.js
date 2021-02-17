@@ -2,14 +2,14 @@ export default function extractTempFieldDetailsCells(tx) {
   const cellValues = [];
   const {action, amount, balEffect} = addTxTypeAndAmount(tx);
 
-  // @dev: only reward claim txs will have a defined value for pricePerSeedReceiptToken
-  const {txDate, pricePerToken, pricePerSeedReceiptToken, userBalanceAfterTx} = tx;
+  // @dev: only reward claim txs will have a defined value for pricePerFarmSeedToken
+  const {txDate, pricePerToken, pricePerFarmSeedToken, userBalanceAfterTx} = tx;
 
   cellValues.push(txDate.toLocaleString('en-GB').split(',')[0]);
   cellValues.push(action);
   cellValues.push(amount);
   cellValues.push(balEffect);
-  cellValues.push({pricePerToken, pricePerSeedReceiptToken, userBalanceAfterTx})
+  cellValues.push({pricePerToken, pricePerFarmSeedToken, userBalanceAfterTx})
 
   return cellValues;
 }

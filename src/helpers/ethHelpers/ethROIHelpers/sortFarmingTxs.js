@@ -7,7 +7,7 @@
  * @param {String} userAccount currently analysed user's address
  * @return {Array} - user farming transactions sorted by type: staking, unstaking or claim
  *                   type is deduced from the [staking | unstaking | reward]Amount property
- * @dev - note that the seedReceiptToken property is added to all transactions, even reward claims
+ * @dev - note that the farmSeedToken property is added to all transactions, even reward claims
  *        this is because for reward claims it will be used to get an accurate read of the historical 
  *        balance in the Farming details page transaction table
  */       
@@ -22,7 +22,7 @@ function sortFarmingTxs(field, userTokenTransactions, userNormalTransactions, tr
   });
 
   //@dev: assumes only one seed token per staking/farming field
-  const seedReceiptToken = field.seedTokens[0];
+  const farmSeedToken = field.seedTokens[0];
   const farmReceiptToken = trackedTokens.find(trackedToken => trackedToken.tokenId === field.receiptToken);
 
   const sortedTxs = userTokenTransactions.reduce((acc, tx) => { //eslint-disable-line array-callback-return
@@ -46,25 +46,25 @@ function sortFarmingTxs(field, userTokenTransactions, userNormalTransactions, tr
         //@dev: assumes all crop tokens are base tokens in DB
         const {priceApi, decimals} = cropToken
         const rewardAmount = tx.value / Number(`1e${decimals}`);
-        return [...acc, {tx, cropToken, priceApi, rewardAmount, seedReceiptToken}]
+        return [...acc, {tx, cropToken, priceApi, rewardAmount, farmSeedToken}]
       } else {
         return acc;
       }
 
     //identify (un)staking tx
-    } else if (tx.contractAddress === seedReceiptToken.address.toLowerCase() || tx.contractAddress === farmReceiptToken?.address.toLowerCase()) {
+    } else if (tx.contractAddress === farmSeedToken.address.toLowerCase() || tx.contractAddress === farmReceiptToken?.address.toLowerCase()) {
 
       // transactions where the user has explicitly (un)staked
-      if (tx.contractAddress === seedReceiptToken.address.toLowerCase()) {
+      if (tx.contractAddress === farmSeedToken.address.toLowerCase()) {
         //identify staking tx
         //@dev: assumes the correct deposit method was used
         if (tx.to === rewardDepositContract.address.toLowerCase()) {
-          const stakingAmount = tx.value / Number(`1e${seedReceiptToken.decimals}`);
-          return [...acc, {tx, seedReceiptToken, stakingAmount}];
+          const stakingAmount = tx.value / Number(`1e${farmSeedToken.decimals}`);
+          return [...acc, {tx, farmSeedToken, stakingAmount}];
           //identify unstaking tx
         } else if (tx.from === rewardWithdrawalContract.address.toLowerCase()) {
-          const unstakingAmount = tx.value / Number(`1e${seedReceiptToken.decimals}`);
-          return [...acc, {tx, seedReceiptToken, unstakingAmount}];
+          const unstakingAmount = tx.value / Number(`1e${farmSeedToken.decimals}`);
+          return [...acc, {tx, farmSeedToken, unstakingAmount}];
         } else {
           return acc;
         }
@@ -73,15 +73,15 @@ function sortFarmingTxs(field, userTokenTransactions, userNormalTransactions, tr
            - the "else if" should exclude duplicating transactions (i.e. the user received or burnt
              farm receipt tokens when performing an explicit (un)staking tx)
            - this function assumes that the amount of farmReceiptTokens minted/burnt is always
-             pegged 1:1 with the seed seedReceiptToken that is (un)staked 
+             pegged 1:1 with the seed farmSeedToken that is (un)staked 
       */
       } else if (tx.contractAddress === farmReceiptToken?.address.toLowerCase()) {
         if (tx.to === userAccount.toLowerCase()) {
-          const stakingAmount = tx.value / Number(`1e${seedReceiptToken.decimals}`);
-          return [...acc, {tx, seedReceiptToken, stakingAmount}];
+          const stakingAmount = tx.value / Number(`1e${farmSeedToken.decimals}`);
+          return [...acc, {tx, farmSeedToken, stakingAmount}];
         } else if (tx.from === userAccount.toLowerCase()) {
-          const unstakingAmount = tx.value / Number(`1e${seedReceiptToken.decimals}`);
-          return [...acc, {tx, seedReceiptToken, unstakingAmount}];
+          const unstakingAmount = tx.value / Number(`1e${farmSeedToken.decimals}`);
+          return [...acc, {tx, farmSeedToken, unstakingAmount}];
         } else {
           return acc;
         }

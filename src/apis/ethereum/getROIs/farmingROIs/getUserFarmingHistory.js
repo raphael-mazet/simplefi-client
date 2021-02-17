@@ -30,26 +30,26 @@ async function getUserFarmingHistory(field, userTokenTransactions, userNormalTra
   //TODO: initialise coingecko calls
   for (let tx of farmingTxs) {
     
-    let seedReceiptTokenPriceAndDate;
-    const { seedReceiptToken } = tx;
+    let farmSeedTokenPriceAndDate;
+    const { farmSeedToken } = tx;
     const txTimestamp = tx.tx.timeStamp;
 
     switch (field.seedTokens[0].protocol.name) {
       case 'Curve':
-        seedReceiptTokenPriceAndDate = await getOneCurveHistReceiptPrice(seedReceiptToken, txTimestamp, trackedFields);
+        farmSeedTokenPriceAndDate = await getOneCurveHistReceiptPrice(farmSeedToken, txTimestamp, trackedFields);
         break;
           
       case 'Uniswap':
         const poolAddress = field.seedTokens[0].address;
         const txBlockNumber = tx.tx.blockNumber;
-        seedReceiptTokenPriceAndDate = await getOneUniswapHistReceiptPrice(txBlockNumber, userAccount, poolAddress);
+        farmSeedTokenPriceAndDate = await getOneUniswapHistReceiptPrice(txBlockNumber, userAccount, poolAddress);
         break;
   
       // default is for cases when the farm seed token is a simple base token (e.g. 1inch)
       default: 
-        const pricePerToken = await getHistoricalPrice(seedReceiptToken.priceApi, txTimestamp);
+        const pricePerToken = await getHistoricalPrice(farmSeedToken.priceApi, txTimestamp);
         const txDate = new Date(Number(txTimestamp) * 1000);
-        seedReceiptTokenPriceAndDate = {pricePerToken, txDate}
+        farmSeedTokenPriceAndDate = {pricePerToken, txDate}
     }
 
     /* add hist. price of the crop token in case the tx is a reward claim (would also satisfy a "if(tx.rewardAmount)"
@@ -59,14 +59,14 @@ async function getUserFarmingHistory(field, userTokenTransactions, userNormalTra
       const histTokenPrice = await getHistoricalPrice (tx.priceApi, tx.tx.timeStamp);
       tx.txDate = new Date(Number(tx.tx.timeStamp) * 1000);
       tx.pricePerToken = histTokenPrice;
-      tx.pricePerSeedReceiptToken = seedReceiptTokenPriceAndDate.pricePerToken;
+      tx.pricePerFarmSeedToken = farmSeedTokenPriceAndDate.pricePerToken;
     } else {
-      tx.pricePerToken = seedReceiptTokenPriceAndDate.pricePerToken;
-      tx.txDate = seedReceiptTokenPriceAndDate.txDate;
+      tx.pricePerToken = farmSeedTokenPriceAndDate.pricePerToken;
+      tx.txDate = farmSeedTokenPriceAndDate.txDate;
     }
   }
 
-  //@dev: [{tx, receiptToken, [cropToken,] txDate, [reward | staking | unstaking]Amount, pricePerToken, [pricePerSeedReceiptToken,] [priceApi]}]
+  //@dev: [{tx, receiptToken, [cropToken,] txDate, [reward | staking | unstaking]Amount, pricePerToken, [pricePerFarmSeedToken,] [priceApi]}]
   return farmingTxs;
 }
 
