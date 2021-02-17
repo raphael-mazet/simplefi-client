@@ -19,7 +19,7 @@ function getHistoricalPriceFromFirstTx (tokenApi, firstTxTimestamp) {
   
   let cachedStartDate;
   if (dayRangePriceCache[tokenApi]) {
-    cachedStartDate = dayRangePriceCache[tokenApi][0][0];    
+    cachedStartDate = dayRangePriceCache[tokenApi][0][0];
   }
 
   if (!cachedStartDate || startDate < cachedStartDate) {
