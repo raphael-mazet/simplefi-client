@@ -13,6 +13,7 @@
   max-width: 400px;
   height: 40%;
   border-radius: 20px;
+  transition: opacity ease-in 300ms, visibility linear 300ms;
 }
 
 .info-modal p {
@@ -21,4 +22,8 @@
   font-size: 1.2em;
   line-height: 2em;
   white-space: pre-wrap;
+}
+
+.info-modal a {
+  cursor: pointer;
 }
