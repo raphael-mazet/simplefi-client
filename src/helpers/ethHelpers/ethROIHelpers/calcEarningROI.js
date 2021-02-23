@@ -30,7 +30,7 @@ function calcEarningROI (currInvestmentValue, txHistory, field, tokenPrices) {
   const allTimeROI = ((currInvestmentValue + valueRealised) / valueInvested) - 1;
 
   //TODO: clean this spaghetti up and add to parent instead
-  if (field.name === "Uni: MTA-wETH 50/50") {
+  if (field.contractAddresses[0].contractInterface.name === 'uniswap V2 earn') {
     calcUnrealisedRelativeProfit();
     totalRelativeROI = (realisedRelativeProfitValue + unrealisedRelativeProfitValue) / valueInvested;
   }
@@ -83,7 +83,7 @@ function calcEarningROI (currInvestmentValue, txHistory, field, tokenPrices) {
 
   function calcUnrealisedRelativeProfit() {
     const currUnstakedUserBalance = field.userBalance ? field.userBalance : 0;
-    const currStakedUserBalance = field.stakedBalance.length ? field.stakedBalance.reduce((acc, curr) => acc + curr.balance, 0) : 0;
+    const currStakedUserBalance = field.stakedBalance ? field.stakedBalance.reduce((acc, curr) => acc + curr.balance, 0) : 0;
     const totalCurrentUserBalance = currUnstakedUserBalance + currStakedUserBalance;
     const userPoolPercentage = totalCurrentUserBalance / field.totalSupply;
     const userFieldSeedHoldings = field.seedTokens.map(seedToken => seedToken.fieldReserve * userPoolPercentage);

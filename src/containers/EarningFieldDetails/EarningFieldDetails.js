@@ -17,7 +17,7 @@ export default function EarningFieldDetails ({name, userFields, history}) {
   const [displayHistInv, setDisplayHistInv] = useState(false);
   const [ROIValue, setROIValue] = useState({title: 'ROI', value: '0%'});
   const [invValue, setInvValue] = useState({title: 'Current', value: '$0'});
-  const [relROIValue, setRelROIValue] = useState({title: 'Something', value: '$0'});
+  const [relROIValue, setRelROIValue] = useState({title: 'Return', value: '$0'});
   const roiRef = useRef(null);
   const relRoiRef = useRef(null);
   const combinedGraph = useRef(null);
@@ -70,7 +70,7 @@ export default function EarningFieldDetails ({name, userFields, history}) {
       setCombinedROI(helpers.calcCombinedROI({earningField: currentField, farmingFields: targetFarms}));
 
       //FIXME: remove this hard-coded restriction
-      if (name === 'Uni: MTA-wETH 50/50') {
+      if (currentField.contractAddresses[0].contractInterface.name === 'uniswap V2 earn') {
         relRoiRef.current.style.display = 'flex';
       }
     }
@@ -107,7 +107,8 @@ export default function EarningFieldDetails ({name, userFields, history}) {
   }, [displayHistInv]);
 
   useEffect(() => {
-    if (name && name === 'Uni: MTA-wETH 50/50') {
+    //FIXME: remove this hard-coded restriction
+    if (name && currentField.contractAddresses[0].contractInterface.name === 'uniswap V2 earn') {
       if (displayRelROIValue) {
         //TODO: avoid recalc on each useEffect
         const totalRelROI = currentField.earningROI.relativeProfit.realisedProfitValue + currentField.earningROI.relativeProfit.unrealisedProfitValue;
