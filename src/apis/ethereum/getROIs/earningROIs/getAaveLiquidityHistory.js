@@ -24,7 +24,6 @@ async function getAaveLiquidityHistory (receiptToken, userReceiptTokenTxs, userA
     await getHistoricalPrice(receiptToken.priceApi, userReceiptTokenTxs[0].timeStamp);
   
     liquidityHistory = userReceiptTokenTxs.map(async tx => {
-      // TODO use targetSnapshot to calculate interest & fix Aave/rebasedtoken balance bug?
       const targetSnapshot = fieldBalanceHistory.find(snapshot => Number(tx.timeStamp) === snapshot.timestamp);
       const userBalanceAfterTx = Number(targetSnapshot.currentATokenBalance)/Number(`1e${receiptToken.decimals}`);
       const pricePerToken = await getHistoricalPrice(receiptToken.priceApi, tx.timeStamp);

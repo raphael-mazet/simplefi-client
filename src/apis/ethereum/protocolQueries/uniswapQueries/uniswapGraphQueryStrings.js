@@ -18,6 +18,7 @@ const getUniswapBalanceHistory =
 gql`
   query getUserBalanceHistory ($user: String!) {
     liquidityPositionSnapshots (
+      first: 1000,
       where: {user: $user}
       orderBy: timestamp
       orderDirection: asc
