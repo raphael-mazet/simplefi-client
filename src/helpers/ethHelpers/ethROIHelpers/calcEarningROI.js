@@ -86,10 +86,14 @@ function calcEarningROI (currInvestmentValue, txHistory, field, tokenPrices) {
     const currStakedUserBalance = field.stakedBalance ? field.stakedBalance.reduce((acc, curr) => acc + curr.balance, 0) : 0;
     const totalCurrentUserBalance = currUnstakedUserBalance + currStakedUserBalance;
     const userPoolPercentage = totalCurrentUserBalance / field.totalSupply;
-    const userFieldSeedHoldings = field.seedTokens.map(seedToken => seedToken.fieldReserve * userPoolPercentage);
+    const userFieldSeedHoldings = [];
+    for (let i = 0; i < field.seedTokens.length; i++) {
+      userFieldSeedHoldings.push(field.seedTokens.find(seedToken => seedToken.seedIndex === i).fieldReserve * userPoolPercentage);
+    }
     const unrealisedProfitAmounts = userFieldSeedHoldings.map((userHolding, i) => userHolding - seedTokensInvested[i]);
     unrealisedRelativeProfitValue = unrealisedProfitAmounts.reduce((acc, curr, i) => {
-      const tokenPrice = tokenPrices[field.seedTokens[i].name].usd;
+      const targetSeed = field.seedTokens.find(seed => seed.seedIndex === i);
+      const tokenPrice = tokenPrices[targetSeed.name].usd;
       return acc + curr * tokenPrice;
     }, 0);
   }
