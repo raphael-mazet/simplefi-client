@@ -5,7 +5,7 @@
   margin: 20px 100px 0 100px;
 }
 
-.field-details h2, h3, p {
+.field-details h2, .field-details h3 {
   color: var(--almost-white);
 }
 
@@ -21,6 +21,7 @@
 }
 
 .field-details-titles p {
+  color: var(--almost-white);
   line-height: 1.8em;
   margin-left: 20px;
   font-weight: 600;
@@ -48,6 +49,10 @@
   justify-content: center;
   margin-top: 15px;
   margin-bottom: 60px;
+}
+
+.field-details-numbers p {
+  color: var(--almost-white);
 }
 
 .field-overview {

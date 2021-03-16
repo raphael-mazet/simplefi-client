@@ -17,6 +17,10 @@
   justify-content: space-between;
 }
 
+.farming-details-numbers p {
+  color: var(--almost-white);
+}
+
 .farming-overview {
   display: flex;
   margin: 15px 20px;

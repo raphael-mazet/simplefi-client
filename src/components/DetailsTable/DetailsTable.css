@@ -33,7 +33,7 @@
   border-radius: 10px;
 }
 
-.tx-table-single-row p {
+.field-details-tx-table P{
   font-size: 0.8em;
   color: var(--dark-grey-font);
 }
