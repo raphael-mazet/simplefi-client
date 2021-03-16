@@ -1,0 +1,128 @@
+@import '../../CSS/variables.css';
+@import '../../CSS/animations.css';
+
+.careers {
+  display: flex;
+  position: relative;
+}
+
+.careers-info {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+.careers-info h2 {
+  all: unset;
+  font-size: 1.8em;
+  line-height: 2em;
+  margin-bottom: 30px;
+}
+
+.careers-main {
+  display: flex;
+  flex-direction: column;
+  margin-left: 120px;
+  margin-right: 50px;
+}
+
+.careers-media {
+  flex: 3;
+  max-height: 300px;
+  position: relative;
+  z-index: -1;
+}
+
+.careers-media-image {
+  width: 85%;
+}
+
+.careers-positions {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  margin-left: 120px;
+}
+
+.position-button {
+  z-index: 0;
+  justify-content: center;
+  background-color: var(--opaque-grey);
+  color: var(--almost-white);
+  margin-top: 30px;
+  font-size: 1.3em;
+  font-weight: 400;
+  padding: 12px 20px;
+  border-radius: 12px;
+  max-width: 200px;
+  text-align: center;
+  box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.5);
+  cursor: pointer;
+}
+
+.position-details {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  margin-top: 10px;
+  padding: 20px 40px;
+  width: 80vw;
+  background-color: var(--dark-opaque-grey);
+  z-index: 1;
+  border-radius: 20px;
+}
+
+.position-details button {
+  position: absolute;
+  right: 50px;
+  color: var(--almost-white);
+  font-size: 1.3em;
+  border: solid;
+  border-width: 1px;
+  border-radius: 15px;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.careers-main h2, .careers-main h3, .careers-main p, .careers-main li, .careers-main a, .careers-positions h2, .careers-positions h3, .careers-positions p, .careers-positions li {
+  color: var(--almost-white);
+}
+
+.careers-main a {
+  text-decoration: underline;
+}
+
+.position-details h2 {
+  font-size: 1.6em;
+  font-weight: 600;
+  margin: 0;
+}
+
+.position-details h3 {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.position-details p, .position-details li {
+  line-height: 1.4em;
+  font-size: 1.1;
+  font-weight: 400;
+}
+
+.position-details h3, .position-details p {
+  margin-bottom: 10px;
+}
+
+.position-details p:last-child {
+  margin-bottom: 0;
+} 
+
+.position-details ul {
+  margin-top: 0;
+}
+
+.position-details li {
+  color: var(--almost-white);
+}
+

@@ -5,7 +5,7 @@
   margin: 20px 100px 0 100px;
 }
 
-.field-details h2, h3, p {
+.field-details h2, .field-details h3, .field-details p {
   color: var(--almost-white);
 }
 

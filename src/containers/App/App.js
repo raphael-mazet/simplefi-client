@@ -11,6 +11,7 @@ import FarmingFieldDetails from '../FarmingFieldDetails/FarmingFieldDetails';
 import EarningFieldDetails from '../EarningFieldDetails/EarningFieldDetails';
 import LoadingModal from '../../components/LoadingModal/LoadingModal';
 import Footer from '../../components/Footer/Footer';
+import Careers from '../../components/Careers/Careers';
 
 function App() {
   const [trackedTokens, setTrackedTokens] = useState([]);
@@ -193,6 +194,7 @@ function App() {
           <Route path='/token/:tokenName' exact render={() => <TokenDetails name={currentDetail} userTokens={userTokens} userTokenPrices={userTokenPrices} history={history}/>}/>
           <Route path='/farming/:fieldName' exact render={() => <FarmingFieldDetails name={currentDetail} userFields={userFields} history={history}/>}/>
           <Route path='/earning/:fieldName' exact render={() => <EarningFieldDetails name={currentDetail} userFields={userFields} history={history}/>}/>
+          <Route path='/careers' exact render={() => <Careers setSplash={setSplash} />}/>
         </Switch>
       <Footer/>
     </div>

@@ -12,6 +12,7 @@ export default function Nav ({splash, userAccount, history}) {
   const infoModalRef = useRef(null);
   const infoModalContentRef = useRef(null);
   const logoRef = useRef(null);
+  const careersRef = useRef(null);
 
   function handleClick(e) {
     if (!infoModalContentRef.current.contains(e.target)) {
@@ -41,6 +42,10 @@ export default function Nav ({splash, userAccount, history}) {
     if (logoRef.current.contains(e.target)) {
       history.push('/');
     }
+    if (careersRef.current.contains(e.target)) {
+      history.push('/careers');
+    }
+
   }
 
   useEffect(() => {
@@ -58,6 +63,7 @@ export default function Nav ({splash, userAccount, history}) {
           <p ref={aboutRef} >About</p>
           <p ref={smileyRef} >😊</p>
           <a href="https://github.com/raphael-mazet/simplefi-client" target="_blank" rel="noreferrer">Github</a>
+          <p ref={careersRef} >Careers</p>
         </div>
           <div className="nav-address-button" style={!splash ? {visibility:'hidden'} : {}}>
             <p>{userAccount.length ? `${userAccount[0].slice(0,6)}...${userAccount[0].slice(-4)}` : '0x0000...0000'}</p>
