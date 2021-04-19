@@ -1,10 +1,9 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import './Careers.css';
 import simpleFiCareers from '../../assets/images/simplefi-careers.svg';
 
 export default function Careers ({setSplash}) {
 
-  const smartContEngRef = useRef(null);
   const communityLeadRef = useRef(null);
 
   useEffect(() => {
