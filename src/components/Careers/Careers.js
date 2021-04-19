@@ -42,47 +42,8 @@ export default function Careers ({setSplash}) {
             <h3>Open positions:</h3>
           </div>
 
-          <button className='position-button' onClick={(e) => togglePosition(e, smartContEngRef)}>Solidity Engineer</button>
           <button className='position-button' onClick={(e) => togglePosition(e, communityLeadRef)}>Community Lead</button>
           
-          <div className="position-details" ref={smartContEngRef}>
-            <button onClick={(e) => togglePosition(e, smartContEngRef)}>X</button>
-            <h2>Software Engineer specialized in smart contracts</h2>
-            <h3>About SimpleFi</h3>
-            <p>SimpleFi is a next-gen DeFi tool that shows users the breakdown of their ROI across all their investments and makes it simple for them to manage their portfolios.</p>
-            <p>The project is VC-funded, recently won a bounty at ETHDenver 2021 and is the recipient of a Uniswap community grant.</p>
-            <h3>What We’re Looking For</h3>
-            <p>We are looking for an experienced software engineer to lead our smart contracts team and launch the next iteration of SimpleFi.</p>
-            <p>SimpleFi is currently in pre-alpha and was designed entirely by the team. Our smart contract component is a system that allows users to effortlessly rebalance their investment portfolios, either manually or automatically based on predetermined triggers.</p>
-            <p>We also plan to launch a tokenized incentives program to drive community growth in the next few months.</p>
-            <p>Our ambition for SimpleFi is to make it the main DeFi entrypoint for all users, from institutional funds to first-time retail investors, across all relevant L1 and L2 blockchain networks.</p>
-            <h3>Responsibilities</h3>
-            <ul>
-              <li>Design, code, test and deploy SimpleFi’s smart contracts.</li>
-              <li>Review code written by other team members.</li>
-              <li>Collaborate with auditors to ensure code quality standards and security.</li>
-              <li>Build back-end web services that interact with the Ethereum blockchain.</li>
-              <li>Write scripts to automate monitoring and tracking to maintain the system’s health.</li>
-              <li>Engage our community by sharing design decisions and document how the protocol works.</li>
-            </ul>
-            <h3>Desired skills</h3>
-            <ul>
-              <li>Experience in creating and maintaining smart contract infrastructure, particularly for DeFi protocols.</li>
-              <li>An interest in the intersection of economic systems and software, and tokenomics.</li>
-              <li>Attention to detail and a security-oriented mindset.</li>
-              <li>Comfortable with a scripting language for task automation, preferably Javascript / Typescript.</li>
-              <li>Have a collaborative, problem-solving attitude and be willing to help other team members.</li>
-            </ul>
-            <h3>Strongly Recommended</h3>
-            <ul>
-              <li>Solidity or Vyper experience.</li>
-              <li>Experience in working with external contributors and community members, particularly for OSS.</li>
-              <li>Experience working with subgraphs and oracles.</li>
-              <li>Interested in Ethereum research (L1 and L2), and developments in other ecosystems (particularly BSC, Avalanche, Solana, Polkadot, etc.)</li>
-              <li>Experience with Ethers.js and GraphQL.</li>
-            </ul>
-          </div>
-            
           <div className="position-details" ref={communityLeadRef}>
             <button onClick={(e) => togglePosition(e, communityLeadRef)}>X</button>
             <h2>Community and Marketing Lead</h2>
